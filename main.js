@@ -57,59 +57,74 @@ function shiftRange(range, hours) {
   return out.join("-") + (rolled ? " (+1)" : "");
 }
 
+/* A real timetable: one track per session, blocks placed and sized by the
+   clock, so gaps and the ninety-minute hackathon look like what they are. */
+const PX_PER_MIN = 3;
+
+const minutes = t => {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+};
+
 function renderWorkshop(tz) {
-  const tbody = $("#workshop-table tbody");
-  tbody.textContent = "";
+  const host = $("#timetable-grid");
+  host.textContent = "";
 
   for (const block of WORKSHOP) {
-    const head = document.createElement("tr");
-    head.className = "is-group";
-    const th = document.createElement("th");
-    th.colSpan = 3;
-    th.innerHTML = `<span class="g-label"></span><span class="g-span"></span>`;
-    $(".g-label", th).textContent = block.label;
-    $(".g-span", th).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]).replace("-", "–");
-    head.append(th);
-    tbody.append(head);
+    const [from, to] = block.span.split("–").map(s => minutes(s.trim()));
+
+    const sec = document.createElement("section");
+    sec.className = "tt-session";
+
+    const head = document.createElement("header");
+    head.className = "tt-head";
+    head.innerHTML = `<b></b><span class="tt-span"></span>`;
+    $("b", head).textContent = block.label;
+    $(".tt-span", head).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]).replace("-", "–");
+    sec.append(head);
+
+    const track = document.createElement("div");
+    track.className = "tt-track";
+    track.style.height = (to - from) * PX_PER_MIN + "px";
 
     for (const row of block.rows) {
-      const tr = document.createElement("tr");
-      if (/break/i.test(row.session)) tr.className = "is-break";
-      if (/hackathon/i.test(row.session)) tr.className = "is-hack";
+      const [s0, s1] = row.edt.split("-").map(t => minutes(t.trim()));
+      const talk = TALKS.findIndex(t => t.name === row.speaker);
+      const isBreak = /break/i.test(row.session);
+      const isHack = /hackathon/i.test(row.session);
 
-      const t = document.createElement("td");
-      t.className = "c-time";
-      t.innerHTML = `<span class="t"></span>`;
-      t.firstChild.textContent = shiftRange(row.edt, TZ_SHIFT[tz]);
+      const node = document.createElement(talk >= 0 ? "button" : isHack ? "a" : "div");
+      node.className = "tt-block" + (isBreak ? " is-break" : "") + (isHack ? " is-hack" : "");
+      node.style.top = (s0 - from) * PX_PER_MIN + "px";
+      node.style.height = (s1 - s0) * PX_PER_MIN - 3 + "px";
 
-      const s = document.createElement("td");
-      s.className = "c-sess";
-      if (row.session) {
-        const b = document.createElement("span");
-        b.className = "s-title";
-        b.textContent = row.session;
-        s.append(b);
-      } else {
-        s.innerHTML = `<span class="s-cont" aria-label="continues">↳</span>`;
-      }
+      const time = document.createElement("span");
+      time.className = "tt-time";
+      time.textContent = shiftRange(row.edt, TZ_SHIFT[tz]);
 
-      const sp = document.createElement("td");
-      sp.className = "c-spk";
-      const talk = TALKS.findIndex(t2 => t2.name === row.speaker);
+      const body = document.createElement("span");
+      body.className = "tt-body";
       if (talk >= 0) {
-        const a = document.createElement("a");
-        a.href = `#talk-${talk + 1}`;
-        a.className = "spk-link";
-        a.textContent = row.speaker;
-        a.addEventListener("click", e => { e.preventDefault(); openTalk(talk); });
-        sp.append(a);
+        body.innerHTML = `<b class="tt-who"></b><span class="tt-what"></span>`;
+        $(".tt-who", body).textContent = row.speaker;
+        $(".tt-what", body).textContent = TALKS[talk].title;
       } else {
-        sp.textContent = row.speaker || "—";
+        body.innerHTML = `<b class="tt-who"></b><span class="tt-what"></span>`;
+        $(".tt-who", body).textContent = row.session || row.speaker;
+        $(".tt-what", body).textContent = isHack ? "Build something ant-shaped →" : "";
       }
 
-      tr.append(t, s, sp);
-      tbody.append(tr);
+      node.append(time, body);
+      if (talk >= 0) {
+        node.type = "button";
+        node.addEventListener("click", () => openTalk(talk));
+      } else if (isHack) {
+        node.href = "#hackathon";
+      }
+      track.append(node);
     }
+    sec.append(track);
+    host.append(sec);
   }
 }
 
@@ -363,18 +378,18 @@ function antTrail(canvas) {
   const ctx = canvas.getContext("2d");
   const leaf = new Path2D(MAPLE_D);
   const INK = (getComputedStyle(document.body).getPropertyValue("--on-dark") || "#f2ebdf").trim();
-  let W = 0, H = 120, dpr = 1;
+  let W = 0, H = 150, dpr = 1;
 
-  const ants = Array.from({ length: 17 }, (_, i) => ({
+  const ants = Array.from({ length: 14 }, (_, i) => ({
     t: rnd(`a${i}`),
     v: 0.00018 + rnd(`v${i}`) * 0.00024,
     dir: rnd(`d${i}`) > 0.4 ? 1 : -1,
     carry: rnd(`c${i}`) > 0.5,
     wob: rnd(`w${i}`) * 6.28,
-    scale: 1.05 + rnd(`s${i}`) * 0.5,
+    scale: 1.7 + rnd(`s${i}`) * 0.8,
   }));
 
-  const trailY = x => H / 2 + Math.sin(x / 150) * 22 + Math.sin(x / 47 + 1.3) * 6;
+  const trailY = x => H / 2 + Math.sin(x / 190) * 26 + Math.sin(x / 55 + 1.3) * 7;
 
   function resize() {
     dpr = Math.min(devicePixelRatio || 1, 2);
@@ -457,7 +472,7 @@ renderBoard();
 setTz("edt");
 syncExpandAll();
 
-drawTissue($(".tissue"));
+$$(".tissue").forEach(drawTissue);
 $$(".braid").forEach(drawBraid);
 $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
 antTrail($("#trail"));
@@ -465,7 +480,7 @@ antTrail($("#trail"));
 let t;
 addEventListener("resize", () => {
   clearTimeout(t);
-  t = setTimeout(() => drawTissue($(".tissue")), 220);
+  t = setTimeout(() => $$(".tissue").forEach(drawTissue), 220);
 });
 
 /* open a talk if the page was linked straight to it */

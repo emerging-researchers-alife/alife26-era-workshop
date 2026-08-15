@@ -77,6 +77,7 @@
 
 <!-- ────────────────────────────────────────────── timetable -->
 <section id="timetable" class="band band-tint">
+  <div class="tissue tissue--band" aria-hidden="true"></div>
   <div class="cell-mark cell-mark--left" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head">
@@ -91,23 +92,13 @@
       </div>
     </div>
 
-    <div class="table-scroll">
-      <table class="sched" id="workshop-table">
-        <thead>
-          <tr>
-            <th class="c-time">Time <span class="tz-label">EDT</span></th>
-            <th class="c-sess">Session</th>
-            <th class="c-spk">Speaker</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <div class="timetable" id="timetable-grid"></div>
   </div>
 </section>
 
 <!-- ────────────────────────────────────────────── talks -->
 <section id="talks" class="band">
+  <div class="tissue tissue--band" aria-hidden="true"></div>
   <div class="cell-mark cell-mark--right" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head">
@@ -157,7 +148,7 @@
       </figure>
     </div>
 
-    <canvas class="trail" id="trail" height="120" aria-hidden="true"></canvas>
+    <canvas class="trail" id="trail" height="150" aria-hidden="true"></canvas>
   </div>
 </section>
 
@@ -165,6 +156,7 @@
 
 <!-- ────────────────────────────────────────────── organisers -->
 <section id="organisers" class="band">
+  <div class="tissue tissue--band" aria-hidden="true"></div>
   <div class="wrap">
     <h2><span class="h-glyph"></span>Organisers</h2>
     <p class="sec-blurb">The ERA board. Find any of us at the conference — that is genuinely what we’re there for.</p>

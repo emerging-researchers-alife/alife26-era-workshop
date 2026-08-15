@@ -23,7 +23,7 @@ Colours come from the flag of Canada — red on white — warmed into paper and 
 so a full page of it is readable. The organic texture is drawn at run time rather
 than shipped as images:
 
-- **Cell tissue** (hero background) — a honeycomb whose vertices are jittered
+- **Cell tissue** (behind every band) — a honeycomb whose vertices are jittered
   through a shared lookup table, so neighbouring cells keep their shared walls.
 - **Braided rules** (section dividers) — two strands weaving; per half-period the
   strand on top is drawn with a background-coloured casing beneath it, which is
@@ -67,11 +67,14 @@ or a new talk, edit it directly. Each talk is:
 }
 ```
 
+The timetable is drawn to scale: one track per session, each block positioned
+and sized from its clock times at `PX_PER_MIN` pixels a minute, so the five-minute
+seams and the ninety-minute hackathon look like what they are.
+
 `WORKSHOP` is a list of sessions, each with a `label`, a `span` and `rows` of
 `edt` / `session` / `speaker`. A row whose `session` matches `break` is styled as
-a break automatically; a `speaker` that matches a talk in `TALKS` becomes a link
-that opens that abstract; an empty `session` renders as a continuation of the row
-above.
+a break automatically, and a `speaker` that matches a talk in `TALKS` turns that
+block into a button which opens the abstract.
 
 The order of `TALKS` is the running order shown on the page — reorder the array
 to reorder the lineup. The organiser list lives in `BOARD` at the top of `main.js`.
