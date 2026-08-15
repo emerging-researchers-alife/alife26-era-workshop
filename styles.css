@@ -333,24 +333,23 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .ag-item--plain .ag-title { font-weight: 400; font-style: italic; color: var(--muted); font-size: .9rem; }
 .ag-item--plain .ag-node::before { background: var(--paper-2); border: 1px solid var(--line); top: 8px; }
 
-/* the hackathon slot, which is ninety minutes and looks it */
+/* the hackathon slot: a card, but its time and dot stay on the rail.
+   The negative margin widens the dark ground without moving the columns. */
+.ag-item--hack { margin-top: 12px; }
 .ag-item--hack .ag-row {
+  align-items: center;
+  width: calc(100% + 40px); margin-left: -20px;
+  padding: 20px 20px 20px 20px;
   background: var(--dark); color: var(--on-dark);
-  padding: 14px 14px 14px 0; margin-bottom: 4px; text-decoration: none;
+  border-radius: var(--r); border-left: 3px solid var(--red);
+  text-decoration: none;
 }
 .ag-item--hack .ag-row:hover { background: var(--dark-2); }
 .ag-item--hack .ag-time { color: var(--on-dark-2); }
-.ag-item--hack .ag-title { font-size: 1.02rem; }
-.ag-item--hack .ag-who { color: #ff8c9c; }
+.ag-item--hack .ag-title { font-size: 1.06rem; }
+.ag-item--hack .ag-who { color: #ff8c9c; margin-top: 3px; }
 .ag-item--hack .ag-node::before { background: var(--red); box-shadow: 0 0 0 4px var(--dark); }
-
-/* the three hours the workshop does not own */
-.ag-gap {
-  display: flex; align-items: center; gap: .8em;
-  padding: 10px 0 10px calc(var(--gutter) + 4px);
-  font-size: .78rem; color: var(--muted); font-style: italic;
-}
-.ag-gap .ag-gap-time { font-family: var(--mono); font-style: normal; }
+.ag-hack-leaf { width: 26px; height: 30px; fill: var(--red); flex: none; opacity: .85; }
 
 /* the abstract, opening in place */
 .ag-panel { display: none; padding: 2px 12px 16px calc(var(--gutter) + 4px); }
@@ -368,7 +367,7 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
   .ag-title { font-size: .9rem; }
   .ag-t1 { display: none; }          /* the start time is enough on a phone */
   .ag-panel { padding-left: 12px; }
-  .ag-session, .ag-gap { padding-left: calc(var(--gutter) + 4px); }
+  .ag-session { padding-left: calc(var(--gutter) + 4px); }
 }
 
 /* ── hackathon band ────────────────────────────────────────────── */
@@ -414,7 +413,11 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 
 /* ── elsewhere ─────────────────────────────────────────────────── */
 /* ── footer ────────────────────────────────────────────────────── */
-.foot { background: var(--dark); color: var(--on-dark-2); padding: 26px 0 32px; }
+/* the hackathon band runs straight into the footer; one tonal step apart */
+.foot {
+  background: var(--dark-2); color: var(--on-dark-2);
+  padding: 26px 0 32px; border-top: 1px solid rgba(242, 235, 223, .1);
+}
 .foot-inner { display: grid; gap: 14px; justify-items: start; }
 .foot-logos { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .foot-isal { height: 30px; width: auto; }
@@ -423,6 +426,5 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .foot-fine { font-size: .74rem; margin: 0; color: #7d7264; max-width: 62ch; }
 
 /* ── value bar ─────────────────────────────────────────────────── */
-.valuebar { height: 10px; background: var(--hero-red); }
 
 .band-dark .tissue { opacity: .35; }

@@ -44,21 +44,14 @@ function shiftRange(range, hours) {
   return parts.join("–") + (rolled ? " +1" : "");
 }
 
-const endOf = range => range.split("-")[1].trim();
-const startOf = range => range.split("-")[0].trim();
-
 /* ══════════════════════════════════ agenda ═════════════════════ */
 /* The timetable and the talk list are one thing: a rail of slots, each
    talk opening its abstract in place. */
 function renderAgenda(tz) {
   const list = $("#agenda");
   list.textContent = "";
-  let prevEnd = null;
 
-  WORKSHOP.forEach((block, bi) => {
-    /* the hours between two sessions, marked but not claimed */
-    if (prevEnd) list.append(gapRow(prevEnd, startOf(block.rows[0].edt), tz));
-
+  for (const block of WORKSHOP) {
     const head = document.createElement("li");
     head.className = "ag-session";
     head.innerHTML = `<b></b><span></span>`;
@@ -66,21 +59,8 @@ function renderAgenda(tz) {
     $("span", head).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]);
     list.append(head);
 
-    for (const row of block.rows) {
-      list.append(slotRow(row, tz));
-      prevEnd = endOf(row.edt);
-    }
-    if (bi === WORKSHOP.length - 1) prevEnd = null;
-  });
-}
-
-function gapRow(from, to, tz) {
-  const li = document.createElement("li");
-  li.className = "ag-gap";
-  li.innerHTML = `<span class="ag-gap-time"></span><span></span>`;
-  $(".ag-gap-time", li).textContent = shiftRange(`${from}-${to}`, TZ_SHIFT[tz]);
-  $(".ag-gap-time", li).nextElementSibling.textContent = "no ERA session";
-  return li;
+    for (const row of block.rows) list.append(slotRow(row, tz));
+  }
 }
 
 function slotRow(row, tz) {
@@ -136,6 +116,9 @@ function slotRow(row, tz) {
     if (isHack) {
       rowEl.href = "#hackathon";
       $(".ag-who", rowEl).textContent = "Build something ant-shaped →";
+      const leaf = svgEl("svg", { class: "ag-hack-leaf", viewBox: "0 0 100 100" });
+      leaf.append(svgEl("use", { href: "#maple", width: 100, height: 100 }));
+      rowEl.append(leaf);
     } else {
       $(".ag-who", rowEl).remove();
     }

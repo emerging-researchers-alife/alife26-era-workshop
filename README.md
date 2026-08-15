@@ -21,14 +21,14 @@ from another host. Open `index.html` and it works.
 
 A letterpress poster, essentially: cream paper, Canada red, ink black, heavy
 condensed capitals for anything that shouts, and a grain over the whole thing.
-The header is one solid red block; a red value bar closes the page.
+The header is one solid red block, and the hackathon band runs straight into the footer.
 
 Everything organic is drawn at run time rather than shipped as an image:
 
 - **Cell tissue**, behind every band — a honeycomb whose vertices are jittered
   through a shared lookup table, so neighbouring cells keep their shared walls.
   The hero flips `--tissue-line` to white and gets the same pattern in reverse.
-- **Helix rules** between sections — two strands crossing, no over-and-under.
+- **A helix rule** under the header — two strands crossing, no over-and-under.
 - **Organelle watermarks** — a wobbly membrane, a nucleus, mitochondria with
   cristae, a scatter of vesicles, half off the edge of the page.
 - **Paper grain** — an `feTurbulence` overlay fixed to the viewport.
@@ -45,8 +45,7 @@ it sits on.
 The timetable and the talk list are the same thing — one rail of slots, each
 talk opening its abstract in place. Times come from the workshop schedule sheet,
 which carries EDT only, so CEST and JST are derived at render time (EDT + 6 and
-EDT + 13). The three hours between the two sessions are shown as a gap rather
-than filled in with a guess.
+EDT + 13).
 
 ## Data
 
