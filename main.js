@@ -111,6 +111,12 @@ function slotRow(row, tz) {
     });
 
     li.append(rowEl, panel);
+  } else if (row.speaker && !isHack) {
+    /* scheduled, but no abstract submitted for it yet */
+    li.className = "ag-item ag-item--tba";
+    $(".ag-title", rowEl).textContent = row.speaker;
+    $(".ag-who", rowEl).textContent = "Lightning talk";
+    li.append(rowEl);
   } else {
     $(".ag-title", rowEl).textContent = row.session || row.speaker;
     if (isHack) {
@@ -228,12 +234,15 @@ function drawTissue(host) {
 }
 
 /* ══════════════════════════════════ helix rule ═════════════════ */
-/* Two strands crossing, and nothing else — no over-and-under, no depth. */
+/* Two strands crossing the full width, and nothing else — no depth. */
 function drawHelix(host) {
-  const W = 190, H = 14, mid = H / 2, amp = 3.4, half = W / 8;
+  const W = Math.max(host.clientWidth || 1200, 360);
+  const H = 14, mid = H / 2, amp = 3.6;
+  const segs = Math.max(8, Math.round(W / 26));
+  const half = W / segs;
   const wave = up => {
     let d = `M0 ${mid}`;
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < segs; i++) {
       const x0 = i * half;
       const peak = mid + ((i % 2 === 0) === up ? -2 : 2) * amp;
       d += ` Q${(x0 + half / 2).toFixed(1)} ${peak.toFixed(1)} ${(x0 + half).toFixed(1)} ${mid}`;
@@ -246,6 +255,7 @@ function drawHelix(host) {
       d: wave(up), fill: "none", stroke: color, "stroke-width": 1.5, "stroke-linecap": "round",
     }));
   }
+  host.textContent = "";
   host.append(svg);
 }
 
@@ -297,7 +307,10 @@ $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
 let resizeTimer;
 addEventListener("resize", () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => $$(".tissue").forEach(h => drawTissue(h)), 220);
+  resizeTimer = setTimeout(() => {
+    $$(".tissue").forEach(h => drawTissue(h));
+    $$(".helix").forEach(drawHelix);
+  }, 220);
 });
 
 /* a link straight to one talk opens it */

@@ -275,8 +275,8 @@ h1 .at {
 .h-glyph { flex: none; width: 18px; height: 20px; fill: var(--red); }
 
 /* ── helix rule ────────────────────────────────────────────────── */
-.helix { height: 26px; display: grid; place-items: center; background: var(--paper); }
-.helix svg { display: block; width: 190px; height: 14px; opacity: .55; }
+.helix { height: 26px; display: grid; place-items: center; background: var(--paper); overflow: hidden; }
+.helix svg { display: block; width: 100%; height: 14px; opacity: .5; }
 
 /* ══════════════════════════════════════════════════════════════════
    Agenda — the timetable and the talks are the same list. One rail,
@@ -328,6 +328,10 @@ button.ag-row:hover { background: var(--red-tint); }
 .ag-chev { width: 15px; height: 15px; color: var(--muted); margin-top: 5px; flex: none; transition: transform .18s ease; }
 button.ag-row[aria-expanded="true"] .ag-chev { transform: rotate(180deg); color: var(--red); }
 button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
+
+/* scheduled, waiting on an abstract */
+.ag-item--tba .ag-title { font-weight: 600; }
+.ag-item--tba .ag-who { font-style: italic; }
 
 /* plain rows: the intro, the breaks */
 .ag-item--plain .ag-title { font-weight: 400; font-style: italic; color: var(--muted); font-size: .9rem; }
@@ -405,11 +409,16 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .emergant { margin: 0; }
 .emergant svg { display: block; width: 100%; max-width: 340px; height: auto; margin-inline: auto; }
 .ant-body { fill: var(--on-dark); }
-.ant-legs { stroke: var(--on-dark); stroke-width: 7; }
+.ant-legs { stroke: var(--on-dark); }
+.ant-legs .l1 { stroke-width: 9; }        /* femur, tibia, tarsus — tapering */
+.ant-legs .l2 { stroke-width: 6.5; }
+.ant-legs .l3 { stroke-width: 4.5; }
+.legs-far { opacity: .42; }
+.ant-seams { stroke: var(--dark); stroke-width: 2.4; opacity: .32; }
 .ant-feelers { stroke: var(--on-dark); stroke-width: 6; }
 .ant-tip { fill: var(--on-dark); }
 .ant-eye { fill: var(--dark); }
-.ant-leaf { fill: #d52b1e; transform-origin: 142px 28px; transform: rotate(-12deg); }
+.ant-leaf { fill: #d52b1e; transform-origin: 172px 20px; transform: rotate(-12deg); }
 
 /* ── elsewhere ─────────────────────────────────────────────────── */
 /* ── footer ────────────────────────────────────────────────────── */

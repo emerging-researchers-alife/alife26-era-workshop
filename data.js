@@ -17,7 +17,7 @@ const WORKSHOP = [
       {
         "edt": "10:30-10:45",
         "session": "",
-        "speaker": "Alejandro Ruiz y Mesa"
+        "speaker": "Imy"
       },
       {
         "edt": "10:45-11:00",
@@ -61,9 +61,19 @@ const WORKSHOP = [
         "speaker": "Jason Yoder"
       },
       {
+        "edt": "15:30-15:45",
+        "session": "",
+        "speaker": "Alejandro Ruiz y Mesa"
+      },
+      {
+        "edt": "15:45-16:00",
+        "session": "",
+        "speaker": "Peter Wallace"
+      },
+      {
         "edt": "15:30-17:00",
         "session": "Ants Hackathon",
-        "speaker": "ERA organisers"
+        "speaker": "Iliya Z"
       }
     ]
   }
@@ -80,17 +90,6 @@ const TALKS = [
       "Molecular biology features numerous complexes of proteins that coordinate in an interlocking fashion to fulfill different functions. Adaptive evolution explains some of this complexity, but needn't be the default when neutral explanations suffice. A new artificial life model \"organism,\" the Quandary Den, is introduced to explore different neutral evolution scenarios where complexity increases in the absence of greater informational needs. Two interlocking complexity scenarios emerge. Subfunctionalization leads to functionality diffusing through the complex. Masking allows intracomplex interference to accumulate genetically, requiring that it be blocked at the level of expression."
     ],
     "bio": "Andy Walsh is the Chief Science Officer at Health Monitoring, a public health software company. Their tools for analyzing prediagnostic healthcare data are used by public health professionals to stay on top of trends in emerging and endemic health conditions from the flu to substance use disorders. He earned a PhD in molecular microbiology and immunology from the Bloomberg School of Public Health by trapping mosquitoes and building statistical models."
-  },
-  {
-    "name": "Alejandro Ruiz y Mesa",
-    "url": null,
-    "urlLabel": null,
-    "affiliation": "Independent researcher",
-    "title": "Oscillatory Cellular Automata as a Substrate for Autopoietic Self-Repair",
-    "abstract": [
-      "Autopoietic characteristics –such as self-production and self-reparation– are longstanding design goals in artificial life. Neural Cellular Automata (NCA) have been used to simulate such autopoietic characteristics and have shown to settle into oscillatory attractors. Separately, damped oscillatory dynamics have shown to carry memory and computation tasks in the neocortex. Such networks of oscillators tend to code information with ghost attractors that emerge at criticality. Motivated by these parallels, we explore the suitability of cellular automata exhibiting intrinsic oscillatory dynamics to self-repair a morphological pattern after a perturbation in a digital toy void environment. We report early implementation challenges, both defining the oscillatory update rule and deploying it on non-conventional (i.e., non-CUDA) digital hardware. Future work will examine (1) whether small perturbations give rise to ghost-attractor-like transients, and (2) whether larger perturbations during the growth phase can induce the emergence of qualitatively new attractors, as has been observed in related NCA and continuous-attractor systems."
-    ],
-    "bio": "Fresh grad electrical and computer engineer from TU Dresden, Germany, interested in hardware and unconventional compute. Working on compilation of dynamic systems and simulation."
   },
   {
     "name": "Iliya Zhechev",
@@ -159,6 +158,17 @@ const TALKS = [
       "In this talk I will give a short background of my journey as an educator and my efforts to create \"ALife-Edu\" - a new organization that has been developing since ALIFE2025. Inspired by my own personal experiences within communities of creative educators, I have sought to help organize a community focused on education and artificial life. I will give an introduction to the progress we have made thus far, recapping our recent virtual workshops in May (AEDU) which brought together ALife educators from around the world. I will introduce some details about the plans for the organization including a draft charter, how to get involved, and a brief outline of the opportunities within the Teaching (with) Artificial Life workshop (Thursday 10am-12pm)."
     ],
     "bio": "Jason A. Yoder is an Associate Professor of Computer Science and Software Engineering at Rose-Hulman Institute of Technology in Terre Haute, IN. His research interests span artificial life, bio-inspired AI, developmental neural networks, evolutionary development (Evo-Devo), and evolvable hardware, exploring how biological principles inform intelligence, learning, and system adaptability. He has a passion for mentoring undergraduate researchers and has repeatedly published work with them in ALIFE, as well as in other venues. He has ongoing industry collaborations with a shared research interest in developing an open-source evolvable hardware platform. He integrates these research areas into undergraduate mentorship and courses at Rose-Hulman Institute of Technology, engaging students in long-term research projects."
+  },
+  {
+    "name": "Alejandro Ruiz y Mesa",
+    "url": null,
+    "urlLabel": null,
+    "affiliation": "Independent researcher",
+    "title": "Oscillatory Cellular Automata as a Substrate for Autopoietic Self-Repair",
+    "abstract": [
+      "Autopoietic characteristics –such as self-production and self-reparation– are longstanding design goals in artificial life. Neural Cellular Automata (NCA) have been used to simulate such autopoietic characteristics and have shown to settle into oscillatory attractors. Separately, damped oscillatory dynamics have shown to carry memory and computation tasks in the neocortex. Such networks of oscillators tend to code information with ghost attractors that emerge at criticality. Motivated by these parallels, we explore the suitability of cellular automata exhibiting intrinsic oscillatory dynamics to self-repair a morphological pattern after a perturbation in a digital toy void environment. We report early implementation challenges, both defining the oscillatory update rule and deploying it on non-conventional (i.e., non-CUDA) digital hardware. Future work will examine (1) whether small perturbations give rise to ghost-attractor-like transients, and (2) whether larger perturbations during the growth phase can induce the emergence of qualitatively new attractors, as has been observed in related NCA and continuous-attractor systems."
+    ],
+    "bio": "Fresh grad electrical and computer engineer from TU Dresden, Germany, interested in hardware and unconventional compute. Working on compilation of dynamic systems and simulation."
   },
   {
     "name": "Piotr Walas",
