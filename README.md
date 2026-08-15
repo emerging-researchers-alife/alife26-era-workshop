@@ -38,7 +38,9 @@ All of it honours `prefers-reduced-motion` and `prefers-color-scheme`.
 
 ## Data sources
 
-- **Minicon schedule** — the published ALIFE 2026 Minicon schedule sheet.
+- **Schedules** — the Minicon and Workshop tabs of the ALIFE 2026 schedule sheet.
+  The Minicon sheet carries all three time zones; the Workshop sheet carries EDT
+  only, so CEST and JST are derived from it at render time (EDT + 6 and EDT + 13).
 - **Lightning talks** — the ERA submission sheet. Only the name, affiliation,
   title, abstract, bio and public link are published; email addresses, consent
   answers and notes to the organisers are not in `data.js` and never reach the page.
@@ -58,16 +60,15 @@ or a new talk, edit it directly. Each talk is:
 }
 ```
 
-Schedule rows carry `edt`, `jst`, `cest`, `min`, `session`, `speaker`, `mode`
-and `note`. A row whose `session` matches `break` or `lunch` is styled as a break
-automatically. The organiser list lives in `BOARD` at the top of `main.js`.
+`MINICON` rows carry `edt`, `jst`, `cest`, `session`, `speaker`, `mode` and
+`note`. `WORKSHOP` is a list of sessions, each with a `label`, a `span` and
+`rows` of `edt` / `session` / `speaker`. A row whose `session` matches `break`
+or `lunch` is styled as a break automatically; a `speaker` that matches a talk
+in `TALKS` becomes a link that opens that abstract. An empty `session` renders
+as a continuation of the row above.
 
-### Still to add
-
-The **Workshop Schedule** tab of the source spreadsheet is not published to the
-web — only the Minicon tab is — so the Tuesday running order is not on the page
-yet. Once those times exist, add a second table beside the Minicon one, or
-publish that tab and regenerate.
+The order of `TALKS` is the running order shown on the page — reorder the array
+to reorder the lineup. The organiser list lives in `BOARD` at the top of `main.js`.
 
 ## Deploying
 

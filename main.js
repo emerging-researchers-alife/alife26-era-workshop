@@ -41,10 +41,25 @@ const BOARD = [
 ];
 
 /* ══════════════════════════════════ schedule ═══════════════════ */
-function renderSchedule(tz = "edt") {
+/* The Minicon sheet ships all three zones; the Workshop sheet ships EDT only,
+   so the other two are derived from it — EDT +6 is CEST, EDT +13 is JST. */
+const TZ_SHIFT = { edt: 0, cest: 6, jst: 13 };
+
+function shiftRange(range, hours) {
+  if (!hours) return range;
+  let rolled = false;
+  const out = range.split("-").map(part => {
+    const [h, m] = part.trim().split(":").map(Number);
+    const raw = h + hours;
+    rolled = raw >= 24;
+    return `${String(raw % 24).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+  });
+  return out.join("-") + (rolled ? " (+1)" : "");
+}
+
+function renderMinicon(tz) {
   const tbody = $("#minicon-table tbody");
   tbody.textContent = "";
-  $(".tz-label").textContent = tz.toUpperCase();
 
   for (const row of MINICON) {
     const tr = document.createElement("tr");
@@ -84,10 +99,70 @@ function renderSchedule(tz = "edt") {
   }
 }
 
-$$(".tz button").forEach(b => b.addEventListener("click", () => {
-  $$(".tz button").forEach(x => x.classList.toggle("is-on", x === b));
-  renderSchedule(b.dataset.tz);
-}));
+function renderWorkshop(tz) {
+  const tbody = $("#workshop-table tbody");
+  tbody.textContent = "";
+
+  for (const block of WORKSHOP) {
+    const head = document.createElement("tr");
+    head.className = "is-group";
+    const th = document.createElement("th");
+    th.colSpan = 3;
+    th.innerHTML = `<span class="g-label"></span><span class="g-span"></span>`;
+    $(".g-label", th).textContent = block.label;
+    $(".g-span", th).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]).replace("-", "–");
+    head.append(th);
+    tbody.append(head);
+
+    for (const row of block.rows) {
+      const tr = document.createElement("tr");
+      if (/break/i.test(row.session)) tr.className = "is-break";
+      if (/hackathon/i.test(row.session)) tr.className = "is-hack";
+
+      const t = document.createElement("td");
+      t.className = "c-time";
+      t.innerHTML = `<span class="t"></span>`;
+      t.firstChild.textContent = shiftRange(row.edt, TZ_SHIFT[tz]);
+
+      const s = document.createElement("td");
+      s.className = "c-sess";
+      if (row.session) {
+        const b = document.createElement("span");
+        b.className = "s-title";
+        b.textContent = row.session;
+        s.append(b);
+      } else {
+        s.innerHTML = `<span class="s-cont" aria-label="continues">↳</span>`;
+      }
+
+      const sp = document.createElement("td");
+      sp.className = "c-spk";
+      const talk = TALKS.findIndex(t2 => t2.name === row.speaker);
+      if (talk >= 0) {
+        const a = document.createElement("a");
+        a.href = `#talk-${talk + 1}`;
+        a.className = "spk-link";
+        a.textContent = row.speaker;
+        a.addEventListener("click", e => { e.preventDefault(); openTalk(talk); });
+        sp.append(a);
+      } else {
+        sp.textContent = row.speaker || "—";
+      }
+
+      tr.append(t, s, sp);
+      tbody.append(tr);
+    }
+  }
+}
+
+function setTz(tz) {
+  $$(".tz button").forEach(x => x.classList.toggle("is-on", x.dataset.tz === tz));
+  $$(".tz-label").forEach(l => { l.textContent = tz.toUpperCase(); });
+  renderMinicon(tz);
+  renderWorkshop(tz);
+}
+
+$$(".tz button").forEach(b => b.addEventListener("click", () => setTz(b.dataset.tz)));
 
 /* ══════════════════════════════════ lightning talks ════════════ */
 function renderTalks() {
@@ -151,6 +226,15 @@ function section(label, paragraphs) {
     frag.append(p);
   }
   return frag;
+}
+
+/* open one talk and bring it into view — used by the schedule's speaker links */
+function openTalk(i) {
+  const head = $$(".t-head")[i];
+  if (!head) return;
+  if (head.getAttribute("aria-expanded") !== "true") head.click();
+  head.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+  head.focus({ preventScroll: true });
 }
 
 function syncExpandAll() {
@@ -411,9 +495,9 @@ function antTrail(canvas) {
 }
 
 /* ══════════════════════════════════ go ═════════════════════════ */
-renderSchedule();
-renderTalks();
+renderTalks();          /* before the schedules — they link into the talk list */
 renderBoard();
+setTz("edt");
 syncExpandAll();
 
 drawTissue($(".tissue"));
@@ -428,10 +512,6 @@ addEventListener("resize", () => {
 });
 
 /* open a talk if the page was linked straight to it */
-if (location.hash.startsWith("#talk-")) {
-  const i = Number(location.hash.slice(6)) - 1;
-  const head = $$(".t-head")[i];
-  if (head) head.click();
-}
+if (location.hash.startsWith("#talk-")) openTalk(Number(location.hash.slice(6)) - 1);
 
 })();

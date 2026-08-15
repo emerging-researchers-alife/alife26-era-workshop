@@ -31,7 +31,7 @@
   <nav class="nav" aria-label="Sections">
     <a href="#about">About</a>
     <a href="#minicon">Minicon</a>
-    <a href="#talks">Lightning talks</a>
+    <a href="#talks">Workshop</a>
     <a href="#hackathon">Emerg-ant</a>
     <a href="#organisers">Organisers</a>
   </nav>
@@ -124,6 +124,7 @@
         <button type="button" data-tz="cest">CEST</button>
         <button type="button" data-tz="jst">JST</button>
       </div>
+
     </div>
     <p class="sec-blurb">
       A day of people who have been doing this a while explaining how they got here — and, more usefully,
@@ -156,19 +157,46 @@
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <h2><span class="h-glyph"></span>Lightning talks</h2>
-        <p class="sec-sub">ERA Workshop · Tuesday 18 August 2026 · ALIFE 2026, Waterloo</p>
+        <h2><span class="h-glyph"></span>ERA Workshop</h2>
+        <p class="sec-sub">Tuesday 18 August 2026 · Room 5 · ALIFE 2026, Waterloo</p>
+      </div>
+      <div class="tz" role="group" aria-label="Time zone">
+        <button type="button" data-tz="edt" class="is-on">EDT</button>
+        <button type="button" data-tz="cest">CEST</button>
+        <button type="button" data-tz="jst">JST</button>
+      </div>
+    </div>
+    <p class="sec-blurb">
+      Two sessions and a hackathon. The morning and early afternoon are lightning talks from
+      emerging researchers; the rest of the afternoon belongs to the ants. Pick a speaker in the
+      schedule to jump to their abstract.
+    </p>
+
+    <div class="table-scroll table-scroll--narrow">
+      <table class="sched" id="workshop-table">
+        <thead>
+          <tr>
+            <th class="c-time">Time <span class="tz-label">EDT</span></th>
+            <th class="c-sess">Session</th>
+            <th class="c-spk">Speaker</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="sec-head sec-head--sub">
+      <div>
+        <h3 class="lineup-head">The talks</h3>
+        <p class="sec-sub">Nine of them — cellular automata that compute and repair themselves,
+          evolution with the fitness function removed, creatures evolved by taste rather than by
+          score, and a symbolic organism that reasons without a single gradient.</p>
       </div>
       <button type="button" class="btn btn-small" id="expand-all" aria-expanded="false">Expand all</button>
     </div>
-    <p class="sec-blurb">
-      Nine short talks from emerging researchers: cellular automata that compute and repair themselves,
-      evolution with the fitness function removed, creatures evolved by taste rather than by score,
-      and a symbolic organism that reasons without a single gradient. Tap a talk for the abstract and bio.
-    </p>
 
     <ol class="talks" id="talk-list"></ol>
-    <p class="fineprint">Running order and exact slot times are being finalised by the organisers.</p>
+    <p class="fineprint">Listed in the running order above. Programme subject to the usual last-minute biology.</p>
   </div>
 </section>
 

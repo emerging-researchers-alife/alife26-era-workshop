@@ -1,10 +1,9 @@
-// Generated from the ERA submission sheet and the ALIFE 2026 Minicon schedule.
+// Generated from the ERA submission sheet and the ALIFE 2026 schedule sheets.
 const MINICON = [
   {
     "edt": "09:00-09:30",
     "jst": "22:00-22:30",
     "cest": "15:00-15:30",
-    "min": "30",
     "session": "Welcome, ERA intro & icebreaker",
     "speaker": "ERA organisers",
     "mode": "In person",
@@ -14,7 +13,6 @@ const MINICON = [
     "edt": "09:30-10:15",
     "jst": "22:30-23:15",
     "cest": "15:30-16:15",
-    "min": "45",
     "session": "Don't get trapped by your research question! Tips to harness the scientific potential of your curiosity",
     "speaker": "Lana Sinapayen",
     "mode": "Remote",
@@ -24,7 +22,6 @@ const MINICON = [
     "edt": "10:15-10:45",
     "jst": "23:15-23:45",
     "cest": "16:15-16:45",
-    "min": "30",
     "session": "Coffee break & Snack exchange",
     "speaker": "",
     "mode": "",
@@ -34,7 +31,6 @@ const MINICON = [
     "edt": "10:45-11:45",
     "jst": "23:45-00:45 (+1)",
     "cest": "16:45-17:45",
-    "min": "60",
     "session": "The career landscape for ALifers: academia, industry and in between",
     "speaker": "Alyssa Adams",
     "mode": "Remote",
@@ -44,7 +40,6 @@ const MINICON = [
     "edt": "11:45-12:30",
     "jst": "00:45-01:30 (+1)",
     "cest": "17:45-18:30",
-    "min": "45",
     "session": "The Artificial Life Institute and my own path into the field",
     "speaker": "Bert Chan",
     "mode": "In person",
@@ -54,7 +49,6 @@ const MINICON = [
     "edt": "12:30-13:30",
     "jst": "01:30-02:30 (+1)",
     "cest": "18:30-19:30",
-    "min": "60",
     "session": "Lunch break",
     "speaker": "",
     "mode": "",
@@ -64,7 +58,6 @@ const MINICON = [
     "edt": "13:30-14:30",
     "jst": "02:30-03:30 (+1)",
     "cest": "19:30-20:30",
-    "min": "60",
     "session": "Criticality of a path through idea space and academia: the Levin Lab's work through the last 25 years",
     "speaker": "Michael Levin",
     "mode": "Remote",
@@ -74,7 +67,6 @@ const MINICON = [
     "edt": "14:30-15:00",
     "jst": "03:30-04:00 (+1)",
     "cest": "20:30-21:00",
-    "min": "30",
     "session": "Coffee break",
     "speaker": "",
     "mode": "",
@@ -84,7 +76,6 @@ const MINICON = [
     "edt": "15:00-16:00",
     "jst": "04:00-05:00 (+1)",
     "cest": "21:00-22:00",
-    "min": "60",
     "session": "How to write a good paper",
     "speaker": "Susan Stepney",
     "mode": "In person",
@@ -94,7 +85,6 @@ const MINICON = [
     "edt": "16:00-17:00",
     "jst": "05:00-06:00 (+1)",
     "cest": "22:00-23:00",
-    "min": "60",
     "session": "A bit on \"Life in Z80\", how it came about, and how I ended up here.",
     "speaker": "Eyvind Niklasson",
     "mode": "In person",
@@ -104,7 +94,6 @@ const MINICON = [
     "edt": "17:00-17:15",
     "jst": "06:00-06:15 (+1)",
     "cest": "23:00-23:15",
-    "min": "15",
     "session": "Wrap-up, announcements & pointer to the ERA Workshop (18 Aug)",
     "speaker": "ERA organisers",
     "mode": "In person",
@@ -112,17 +101,87 @@ const MINICON = [
   }
 ];
 
+const WORKSHOP = [
+  {
+    "label": "Session A",
+    "span": "10:00–12:00",
+    "rows": [
+      {
+        "edt": "10:00-10:10",
+        "session": "ERA Intro",
+        "speaker": ""
+      },
+      {
+        "edt": "10:15-10:30",
+        "session": "Lightning talks",
+        "speaker": "Andy Walsh"
+      },
+      {
+        "edt": "10:30-10:45",
+        "session": "",
+        "speaker": "Alejandro Ruiz y Mesa"
+      },
+      {
+        "edt": "10:45-11:00",
+        "session": "",
+        "speaker": "Iliya Zhechev"
+      },
+      {
+        "edt": "11:00-11:10",
+        "session": "Break",
+        "speaker": ""
+      },
+      {
+        "edt": "11:10-11:25",
+        "session": "Lightning talks",
+        "speaker": "Anushka Sharma"
+      },
+      {
+        "edt": "11:25-11:40",
+        "session": "",
+        "speaker": "Prince Siddhpara"
+      },
+      {
+        "edt": "11:40-12:00",
+        "session": "",
+        "speaker": "Alex Alvarez"
+      }
+    ]
+  },
+  {
+    "label": "Session B",
+    "span": "15:00–17:00",
+    "rows": [
+      {
+        "edt": "15:00-15:15",
+        "session": "Lightning talks",
+        "speaker": "Sean Hardy"
+      },
+      {
+        "edt": "15:15-15:30",
+        "session": "",
+        "speaker": "Jason Yoder"
+      },
+      {
+        "edt": "15:30-17:00",
+        "session": "Ants Hackathon",
+        "speaker": "ERA organisers"
+      }
+    ]
+  }
+];
+
 const TALKS = [
   {
-    "name": "Prince Siddhpara",
-    "url": "https://mura-alife.com",
-    "urlLabel": "mura-alife.com",
-    "affiliation": "Mura ALife Labs",
-    "title": "Reasoning Without Backpropagation: A Near-Zero-Compute Vector-Symbolic Organism",
+    "name": "Andy Walsh",
+    "url": "https://bsky.app/profile/andyswalsh.bsky.social",
+    "urlLabel": "@andyswalsh",
+    "affiliation": "Independent researcher",
+    "title": "Neutrally Evolving Interlocking Complexity in the Quandary Den",
     "abstract": [
-      "Ikigai is a digital organism i've been building on a vector symbolic (FHRR phasor) substrate instead of a neural network. It stores plain facts and rules and works out the answers when you ask, so the multi hop reasoning happens at query time rather than being memorized. On an equal knowledge test, where both sides get the exact same facts, it derives 100% of the held out multi hop conclusions through 8 hops with zero made up answers, using around 9 lookups per query (microseconds, one CPU core). That matches a live 550B parameter frontier model on correctness at roughly a millionth of the compute. It also learns without backpropagation, taking in about 15,000 facts a second on one core, which comes to around $0.36 per billion facts with no GPU. How it picks a method is emergent too, it arbitrates between reasoning, retrieval, arithmetic and planning by free energy, with no hand written router, and it just says i don't know when the query sits below its own noise floor. I'll walk through the architecture, the numbers, and the honest limit, which is that it doesn't match large open ended generation yet. Still very much a work in progress, and i'm looking for data and people to build it with."
+      "Molecular biology features numerous complexes of proteins that coordinate in an interlocking fashion to fulfill different functions. Adaptive evolution explains some of this complexity, but needn't be the default when neutral explanations suffice. A new artificial life model \"organism,\" the Quandary Den, is introduced to explore different neutral evolution scenarios where complexity increases in the absence of greater informational needs. Two interlocking complexity scenarios emerge. Subfunctionalization leads to functionality diffusing through the complex. Masking allows intracomplex interference to accumulate genetically, requiring that it be blocked at the level of expression."
     ],
-    "bio": "Hi! Im Prince, 17 year old researcher and the founder of Mura ALife Labs. I work solo on NeuroSeed, the framework behind Ikigai, a near zero compute digital organism. You can find more about me and the project at princesiddhpara.com and mura-alfie.com"
+    "bio": "Andy Walsh is the Chief Science Officer at Health Monitoring, a public health software company. Their tools for analyzing prediagnostic healthcare data are used by public health professionals to stay on top of trends in emerging and endemic health conditions from the flu to substance use disorders. He earned a PhD in molecular microbiology and immunology from the Bloomberg School of Public Health by trapping mosquitoes and building statistical models."
   },
   {
     "name": "Alejandro Ruiz y Mesa",
@@ -136,15 +195,15 @@ const TALKS = [
     "bio": "Fresh grad electrical and computer engineer from TU Dresden, Germany, interested in hardware and unconventional compute. Working on compilation of dynamic systems and simulation."
   },
   {
-    "name": "Andy Walsh",
-    "url": "https://bsky.app/profile/andyswalsh.bsky.social",
-    "urlLabel": "@andyswalsh",
-    "affiliation": "Independent researcher",
-    "title": "Neutrally Evolving Interlocking Complexity in the Quandary Den",
+    "name": "Iliya Zhechev",
+    "url": "https://ichko.github.io",
+    "urlLabel": "ichko.github.io",
+    "affiliation": "Sofia University",
+    "title": "Self-organized boolean computation",
     "abstract": [
-      "Molecular biology features numerous complexes of proteins that coordinate in an interlocking fashion to fulfill different functions. Adaptive evolution explains some of this complexity, but needn't be the default when neutral explanations suffice. A new artificial life model \"organism,\" the Quandary Den, is introduced to explore different neutral evolution scenarios where complexity increases in the absence of greater informational needs. Two interlocking complexity scenarios emerge. Subfunctionalization leads to functionality diffusing through the complex. Masking allows intracomplex interference to accumulate genetically, requiring that it be blocked at the level of expression."
+      "Neural cellular automata are usually trained to grow and repair shapes; this one computes. A single learned update rule, applied locally over many steps, self-organises the answer from spatially encoded inputs. Explore the live demo here: https://ncpu.pages.dev"
     ],
-    "bio": "Andy Walsh is the Chief Science Officer at Health Monitoring, a public health software company. Their tools for analyzing prediagnostic healthcare data are used by public health professionals to stay on top of trends in emerging and endemic health conditions from the flu to substance use disorders. He earned a PhD in molecular microbiology and immunology from the Bloomberg School of Public Health by trapping mosquitoes and building statistical models."
+    "bio": "I like to make NCAs do stuff"
   },
   {
     "name": "Anushka Sharma",
@@ -160,26 +219,15 @@ const TALKS = [
     "bio": "Anushka Sharma is an independent researcher building Genesis: a fitness-free, constraint-driven evolution platform. She has two first-author papers at GECCO 2026. Her current work focuses on structure-function lag in open-ended evolutionary systems and the meta-evolution of physics across co-evolving worlds."
   },
   {
-    "name": "Iliya Zhechev",
-    "url": "https://ichko.github.io",
-    "urlLabel": "ichko.github.io",
-    "affiliation": "Sofia University",
-    "title": "Self-organized boolean computation",
+    "name": "Prince Siddhpara",
+    "url": "https://mura-alife.com",
+    "urlLabel": "mura-alife.com",
+    "affiliation": "Mura ALife Labs",
+    "title": "Reasoning Without Backpropagation: A Near-Zero-Compute Vector-Symbolic Organism",
     "abstract": [
-      "Neural cellular automata are usually trained to grow and repair shapes; this one computes. A single learned update rule, applied locally over many steps, self-organises the answer from spatially encoded inputs. Explore the live demo here: https://ncpu.pages.dev"
+      "Ikigai is a digital organism i've been building on a vector symbolic (FHRR phasor) substrate instead of a neural network. It stores plain facts and rules and works out the answers when you ask, so the multi hop reasoning happens at query time rather than being memorized. On an equal knowledge test, where both sides get the exact same facts, it derives 100% of the held out multi hop conclusions through 8 hops with zero made up answers, using around 9 lookups per query (microseconds, one CPU core). That matches a live 550B parameter frontier model on correctness at roughly a millionth of the compute. It also learns without backpropagation, taking in about 15,000 facts a second on one core, which comes to around $0.36 per billion facts with no GPU. How it picks a method is emergent too, it arbitrates between reasoning, retrieval, arithmetic and planning by free energy, with no hand written router, and it just says i don't know when the query sits below its own noise floor. I'll walk through the architecture, the numbers, and the honest limit, which is that it doesn't match large open ended generation yet. Still very much a work in progress, and i'm looking for data and people to build it with."
     ],
-    "bio": "I like to make NCAs do stuff"
-  },
-  {
-    "name": "Jason Yoder",
-    "url": "https://alife-edu.github.io/",
-    "urlLabel": "alife-edu.github.io",
-    "affiliation": "Rose-Hulman Institute of Technology",
-    "title": "Introducing ALife-Edu: A Community for Artificial Life Education",
-    "abstract": [
-      "In this talk I will give a short background of my journey as an educator and my efforts to create \"ALife-Edu\" - a new organization that has been developing since ALIFE2025. Inspired by my own personal experiences within communities of creative educators, I have sought to help organize a community focused on education and artificial life. I will give an introduction to the progress we have made thus far, recapping our recent virtual workshops in May (AEDU) which brought together ALife educators from around the world. I will introduce some details about the plans for the organization including a draft charter, how to get involved, and a brief outline of the opportunities within the Teaching (with) Artificial Life workshop (Thursday 10am-12pm)."
-    ],
-    "bio": "Jason A. Yoder is an Associate Professor of Computer Science and Software Engineering at Rose-Hulman Institute of Technology in Terre Haute, IN. His research interests span artificial life, bio-inspired AI, developmental neural networks, evolutionary development (Evo-Devo), and evolvable hardware, exploring how biological principles inform intelligence, learning, and system adaptability. He has a passion for mentoring undergraduate researchers and has repeatedly published work with them in ALIFE, as well as in other venues. He has ongoing industry collaborations with a shared research interest in developing an open-source evolvable hardware platform. He integrates these research areas into undergraduate mentorship and courses at Rose-Hulman Institute of Technology, engaging students in long-term research projects."
+    "bio": "Hi! Im Prince, 17 year old researcher and the founder of Mura ALife Labs. I work solo on NeuroSeed, the framework behind Ikigai, a near zero compute digital organism. You can find more about me and the project at princesiddhpara.com and mura-alfie.com"
   },
   {
     "name": "Alex Alvarez",
@@ -202,6 +250,17 @@ const TALKS = [
       "Genetica is an ongoing project to simulate the evolution of earth-like aquatic organisms with complex morphologies and brains. Genetica uses a novel algorithm for representing creature morphologies, inspired by real gene-regulatory networks. It allows for modular organisms that exhibit within-lifetime, nonlinear growth, serial homology, continuous morphological mutation, and complex functional bodies with interior tissues and exterior structures. Most importantly, these creatures are super efficient to simulate on a GPU, so I can simulate thousands of organisms at ecosystem scale on a laptop."
     ],
     "bio": "I'm a 24 year old software engineer based in the UK, but in my spare time I'm building Genetica. Not sure what to put here but I’d love the opportunity to give a talk :D"
+  },
+  {
+    "name": "Jason Yoder",
+    "url": "https://alife-edu.github.io/",
+    "urlLabel": "alife-edu.github.io",
+    "affiliation": "Rose-Hulman Institute of Technology",
+    "title": "Introducing ALife-Edu: A Community for Artificial Life Education",
+    "abstract": [
+      "In this talk I will give a short background of my journey as an educator and my efforts to create \"ALife-Edu\" - a new organization that has been developing since ALIFE2025. Inspired by my own personal experiences within communities of creative educators, I have sought to help organize a community focused on education and artificial life. I will give an introduction to the progress we have made thus far, recapping our recent virtual workshops in May (AEDU) which brought together ALife educators from around the world. I will introduce some details about the plans for the organization including a draft charter, how to get involved, and a brief outline of the opportunities within the Teaching (with) Artificial Life workshop (Thursday 10am-12pm)."
+    ],
+    "bio": "Jason A. Yoder is an Associate Professor of Computer Science and Software Engineering at Rose-Hulman Institute of Technology in Terre Haute, IN. His research interests span artificial life, bio-inspired AI, developmental neural networks, evolutionary development (Evo-Devo), and evolvable hardware, exploring how biological principles inform intelligence, learning, and system adaptability. He has a passion for mentoring undergraduate researchers and has repeatedly published work with them in ALIFE, as well as in other venues. He has ongoing industry collaborations with a shared research interest in developing an open-source evolvable hardware platform. He integrates these research areas into undergraduate mentorship and courses at Rose-Hulman Institute of Technology, engaging students in long-term research projects."
   },
   {
     "name": "Piotr Walas",

@@ -279,6 +279,26 @@ h1 .at { color: var(--red); font-weight: 400; }
 }
 .mode.is-remote { border-color: var(--red); color: var(--red-deep); }
 
+/* workshop table: session banners, continuation rows, speaker links */
+.sched tr.is-group th {
+  background: var(--red-tint); border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line); padding: 8px 14px;
+}
+.sched tr.is-group:first-child th { border-top: 0; }
+.g-label { color: var(--red-deep); letter-spacing: .1em; }
+.g-span { font-family: var(--mono); text-transform: none; letter-spacing: 0; margin-left: .8em; color: var(--muted); }
+.s-cont { color: var(--line); font-size: .9rem; }
+.sched tr.is-hack .s-title { color: var(--red-deep); font-weight: 600; }
+.table-scroll--narrow { max-width: 720px; }
+#workshop-table { min-width: 480px; }
+#workshop-table .c-spk { width: 190px; }
+.spk-link { color: var(--ink); text-decoration: none; border-bottom: 1px dotted var(--line); }
+.spk-link:hover { color: var(--red-deep); border-bottom-color: currentColor; }
+
+.sec-head--sub { margin-top: 2.2em; align-items: flex-start; }
+.lineup-head { color: var(--ink); text-transform: none; letter-spacing: -.01em; font-size: 1.05rem; margin-bottom: .3em; }
+.sec-head--sub .sec-sub { max-width: 62ch; }
+
 /* ── talks ─────────────────────────────────────────────────────── */
 .talks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .talk { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
