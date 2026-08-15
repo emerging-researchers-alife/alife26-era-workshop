@@ -23,34 +23,20 @@
 
 <div class="grain" aria-hidden="true"></div>
 
-<header class="topbar">
-  <a class="brand" href="#top" aria-label="Top of page">
-    <img src="assets/era-logo.png" alt="ERA" class="brand-mark">
-  </a>
-  <nav class="nav" aria-label="Sections">
-    <a href="#programme">Programme</a>
-    <a href="#hackathon">Emerg-ant</a>
-  </nav>
-</header>
-
 <main id="top">
 
 <!-- ─────────────────────────────────────────────────────── hero -->
 <section class="hero">
   <div class="tissue" aria-hidden="true"></div>
   <div class="wrap hero-inner">
-    <p class="kicker">
-      <svg class="ic" viewBox="0 0 100 100" aria-hidden="true"><use href="#maple" width="100" height="100"/></svg>
-      <span>Build life. Simulate. Evolve.<br>Imagine what’s <em>alive</em>.</span>
-    </p>
-
     <h1>
-      <span class="h1-row"><img src="assets/era-logo.png" alt="ERA" class="h1-mark"><span class="at">@</span></span>
-      <span class="h1-row h1-big">ALIFE&nbsp;2026</span>
+      <span class="h1-row">
+        <img src="assets/era-logo.png" alt="ERA" class="h1-mark">
+        <span class="at">@</span>
+        <span class="h1-big">ALIFE&nbsp;2026</span>
+      </span>
       <span class="h1-row h1-alt">Workshop</span>
     </h1>
-
-    <p class="tagline">Ants inspire. <span>Life emerges.</span></p>
 
     <dl class="specs">
       <div>
@@ -72,7 +58,7 @@
     </dl>
 
     <div class="cta-row">
-      <a class="btn btn-primary" href="#programme">Programme</a>
+      <a class="btn btn-primary" href="#programme">Lightning talks</a>
       <a class="btn" href="#hackathon">Emerg-ant hackathon</a>
     </div>
 
@@ -98,7 +84,7 @@
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <h2><svg class="h-glyph" viewBox="0 0 100 100" aria-hidden="true"><use href="#maple" width="100" height="100"/></svg>Programme</h2>
+        <h2><svg class="h-glyph" viewBox="0 0 100 100" aria-hidden="true"><use href="#maple" width="100" height="100"/></svg>Lightning talks</h2>
         <p class="sec-sub">Tuesday 18 August 2026 · Room 5. Every talk opens where it sits.</p>
       </div>
       <div class="head-tools">
@@ -117,6 +103,7 @@
 
 <!-- ────────────────────────────────────────────────── hackathon -->
 <section id="hackathon" class="band band-dark">
+  <div class="tissue tissue--band" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hack-grid">
       <div class="hack-copy">
@@ -143,35 +130,44 @@
       </div>
 
       <figure class="emergant">
-        <img src="assets/ant.svg" alt="Silhouette of a worker ant" class="ant-art">
-        <svg class="ant-leaf" viewBox="0 0 100 100" aria-hidden="true">
-          <use href="#maple" x="0" y="0" width="100" height="100"/>
+        <!-- a simple, flat ant: round shapes, no spines, no mandibles -->
+        <svg viewBox="0 -16 230 172" role="img" aria-labelledby="ant-t">
+          <title id="ant-t">An ant carrying a maple leaf</title>
+
+          <g class="ant-legs" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M104 92 L92 118 L74 132"/>
+            <path d="M116 90 L116 122 L102 138"/>
+            <path d="M128 88 L142 116 L134 136"/>
+          </g>
+
+          <g class="ant-body">
+            <ellipse cx="52" cy="78" rx="34" ry="27"/>
+            <circle cx="90" cy="80" r="7"/>
+            <ellipse cx="120" cy="74" rx="24" ry="19"/>
+            <circle cx="164" cy="64" r="23"/>
+          </g>
+
+          <g class="ant-feelers" fill="none" stroke-linecap="round">
+            <path d="M172 44 Q182 26 200 24"/>
+            <path d="M180 54 Q196 44 212 46"/>
+          </g>
+          <circle class="ant-tip" cx="201" cy="24" r="4.5"/>
+          <circle class="ant-tip" cx="213" cy="46" r="4.5"/>
+          <circle class="ant-eye" cx="174" cy="58" r="4.5"/>
+
+          <!-- the leaf, carried over the shoulder, clear of the feelers -->
+          <g class="ant-leaf">
+            <use href="#maple" x="100" y="-14" width="84" height="84"/>
+          </g>
         </svg>
       </figure>
     </div>
-
-    <canvas class="trail" id="trail" height="150" aria-hidden="true"></canvas>
   </div>
 </section>
 
 <div class="helix" aria-hidden="true"></div>
 
-<!-- ────────────────────────────────────────────────── elsewhere -->
-<section class="band band-slim">
-  <div class="wrap links-row">
-    <a class="link-card" href="https://2026.alife.org/" target="_blank" rel="noopener">
-      <b>ALIFE 2026</b><span>Waterloo, Ontario · 17–21 August · registration, venue, programme</span></a>
-    <a class="link-card" href="https://alife.org/emerging-researchers-in-alife/" target="_blank" rel="noopener">
-      <b>ERA on alife.org</b><span>The chapter, its board, and what it does the other fifty weeks</span></a>
-    <a class="link-card" href="https://alife.org/" target="_blank" rel="noopener">
-      <b>ISAL</b><span>International Society for Artificial Life</span></a>
-  </div>
-</section>
-
-<div class="valuebar">
-  <span>Emergence</span><span>Adaptation</span><span>Evolution</span>
-  <span>Collaboration</span><span>Ants</span>
-</div>
+<div class="valuebar" aria-hidden="true"></div>
 
 </main>
 
@@ -184,10 +180,6 @@
     <p class="foot-text">
       ERA — Emerging Researchers in Artificial Life, the student chapter of ISAL.<br>
       Hosted at ALIFE 2026, Waterloo, Ontario, Canada.
-    </p>
-    <p class="foot-fine">
-      Logos belong to ERA, ALIFE 2026 and ISAL. The flag of Canada and the worker-ant drawing
-      (after Mariana Ruiz) are public domain. Abstracts and bios published with the speakers’ consent.
     </p>
   </div>
 </footer>

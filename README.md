@@ -15,7 +15,7 @@ from another host. Open `index.html` and it works.
 | `styles.css` | Tokens and layout. Light and dark themes come from one set of custom properties. |
 | `main.js` | Builds the programme and draws every pattern on the page. |
 | `data.js` | Generated content: the timetable and the nine talks. |
-| `assets/` | ERA, ALIFE 2026 and ISAL logos, the ant, the flag of Canada, the favicon. |
+| `assets/` | ERA, ALIFE 2026 and ISAL logos, the flag of Canada, the favicon. |
 
 ## Design
 
@@ -31,19 +31,14 @@ Everything organic is drawn at run time rather than shipped as an image:
 - **Helix rules** between sections — two strands crossing, no over-and-under.
 - **Organelle watermarks** — a wobbly membrane, a nucleus, mitochondria with
   cristae, a scatter of vesicles, half off the edge of the page.
-- **Ant trail** in the hackathon band — a pheromone trail with traffic on it.
-  About half of them are carrying.
 - **Paper grain** — an `feTurbulence` overlay fixed to the viewport.
 
 All of it honours `prefers-reduced-motion` and `prefers-color-scheme`.
 
-`assets/ant.svg` is the one drawing that is not generated: a lateral worker ant
-from *Scheme ant worker anatomy* by Mariana Ruiz (LadyofHats) on Wikimedia
-Commons, which is public domain. The labels, leader lines and colour bands were
-stripped and every part filled flat, which leaves a solid silhouette; the
-palette is fixed to the hackathon band's two colours so the file renders
-correctly through an `<img>` tag with no CSS context. The maple leaf it carries
-is a separate overlay, rotated so its stem meets the mandibles.
+The one drawing that is not a pattern is the ant in the hackathon band: flat
+shapes, round head, no mandibles and no spines, carrying a maple leaf over its
+shoulder. It is inline SVG in `index.html` so it takes its colours from the band
+it sits on.
 
 ## The programme
 
@@ -86,6 +81,6 @@ Any static host. For GitHub Pages: Settings → Pages → *Deploy from a branch*
 
 ## Credits
 
-Logos belong to ERA, ALIFE 2026 and ISAL. The flag of Canada and the worker-ant
-drawing are public domain. Abstracts and bios are published with the speakers'
-consent.
+Logos belong to ERA, ALIFE 2026 and ISAL. The maple leaf is traced from the
+public-domain flag of Canada. Abstracts and bios are published with the
+speakers' consent.

@@ -118,31 +118,10 @@ p { margin: 0 0 .8em; }
 .cell-mark svg { width: 100%; height: 100%; }
 @media (max-width: 1180px) { .cell-mark { display: none; } }
 
-/* ── top bar ───────────────────────────────────────────────────── */
-.topbar {
-  position: sticky; top: 0; z-index: 50;
-  display: flex; align-items: center; gap: 18px;
-  padding: 9px max(22px, calc((100vw - var(--wrap)) / 2 + 22px));
-  background: var(--hero-red);
-  background: color-mix(in srgb, var(--hero-red) 92%, transparent);
-  backdrop-filter: blur(9px) saturate(1.2);
-  border-bottom: 1px solid rgba(255, 255, 255, .18);
-}
-.brand { display: flex; align-items: center; flex: none; }
-.brand-mark { height: 22px; width: auto; display: block; filter: invert(1); }
-
-.nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
-.nav::-webkit-scrollbar { display: none; }
-.nav a {
-  font-size: .82rem; color: rgba(255, 255, 255, .8); text-decoration: none;
-  padding: 5px 10px; border-radius: 6px; white-space: nowrap;
-}
-.nav a:hover { background: rgba(255, 255, 255, .16); color: #fff; }
-
 /* ── hero: one big red block, the flag's own colour ────────────── */
 .hero {
   position: relative; overflow: hidden;
-  padding: 44px 0 40px;
+  padding: 30px 0 28px;
   background:
     radial-gradient(120ch 70ch at 12% -25%, #d4183a, transparent 70%),
     var(--hero-red);
@@ -153,8 +132,6 @@ p { margin: 0 0 .8em; }
 .hero-inner { position: relative; }
 .hero .tissue { opacity: .75; }
 .hero a { color: #fff; }
-.hero .kicker { color: rgba(255, 255, 255, .78); }
-.hero .kicker .dot { background: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, .25); }
 
 .hero .ic { fill: #fff; }
 .hero .h1-mark { filter: invert(1); }
@@ -166,13 +143,10 @@ p { margin: 0 0 .8em; }
 .hero .btn-primary:hover { background: #fff; border-color: #fff; color: var(--hero-red); }
 
 .kicker {
-  display: flex; align-items: flex-start; gap: .7em;
-  font-size: .78rem; line-height: 1.5; letter-spacing: .13em; text-transform: uppercase;
-  color: var(--muted); font-weight: 700; margin-bottom: .2em;
+  display: inline-flex; align-items: center; gap: .6em;
+  font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700; margin-bottom: .6em;
 }
-.kicker em { font-style: normal; color: var(--red); }
-.hero .kicker em { color: var(--dark); }
-.kicker .ic { width: 17px; height: 19px; margin-top: 1px; }
 .kicker .dot {
   width: 7px; height: 7px; border-radius: 50%; background: var(--red);
   flex: none; box-shadow: 0 0 0 3px var(--red-tint);
@@ -181,34 +155,25 @@ p { margin: 0 0 .8em; }
 
 h1 {
   font-family: var(--display); font-weight: 900; text-transform: uppercase;
-  font-size: clamp(2.6rem, 9vw, 5.4rem);
-  line-height: .86; letter-spacing: -.028em;
-  margin: .05em 0 .3em; display: grid; gap: 0; justify-items: start;
+  font-size: clamp(1.9rem, 6.4vw, 4rem);
+  line-height: .88; letter-spacing: -.028em;
+  margin: 0 0 .28em; display: grid; gap: .1em; justify-items: start;
 }
-.h1-row { display: flex; align-items: center; gap: .12em; }
-.h1-mark { height: 1.05em; width: auto; display: block; }
+.h1-row { display: flex; align-items: center; gap: .1em; flex-wrap: wrap; }
+.h1-mark { height: 1.1em; width: auto; display: block; }
 h1 .at {
   color: rgba(255, 255, 255, .6); font-weight: 400; font-family: var(--font);
   font-size: .3em; align-self: center; margin-left: .3em;
 }
 .h1-big { letter-spacing: -.035em; }
 .h1-alt {
-  color: var(--dark); letter-spacing: .16em; font-size: .38em;
-  padding: .18em .5em .12em; background: var(--paper); margin-top: .18em;
+  color: var(--dark); letter-spacing: .2em; font-size: .42em;
+  padding: .2em .6em .14em; background: var(--paper);
 }
-
-/* the tagline, boxed the way a poster boxes one */
-.tagline {
-  display: inline-block; margin: .2em 0 0;
-  border: 1.5px solid rgba(255, 255, 255, .5); border-radius: 4px;
-  padding: 7px 14px; font-size: .8rem; font-weight: 600;
-  letter-spacing: .13em; text-transform: uppercase; color: #fff;
-}
-.tagline span { color: rgba(255, 255, 255, .62); }
 
 /* DATE · TIME · WHERE · WHO, ruled apart */
 .specs {
-  display: flex; flex-wrap: wrap; gap: 0; margin: 1.6em 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0; margin: 1.3em 0 0; padding: 0;
 }
 .specs > div { padding: 0 22px; border-left: 1px solid rgba(255, 255, 255, .3); }
 .specs > div:first-child { padding-left: 0; border-left: 0; }
@@ -228,7 +193,7 @@ h1 .at {
 
 /* a hairline with a label sitting in it */
 .rule-label {
-  position: relative; margin: 2em 0 1em; text-align: left;
+  position: relative; margin: 1.6em 0 .9em; text-align: left;
   border-top: 1px solid rgba(255, 255, 255, .35); height: 0;
 }
 .rule-label span {
@@ -258,7 +223,7 @@ h1 .at {
 .facts b { font-weight: 600; color: var(--ink); }
 .ic { width: 13px; height: 13px; fill: var(--red); flex: none; }
 
-.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 1.2em; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 1.3em; }
 
 .about {
   max-width: 60ch; margin: 1.5em 0 0; padding-top: 1.1em;
@@ -408,6 +373,8 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 
 /* ── hackathon band ────────────────────────────────────────────── */
 .band-dark {
+  --tissue-line: #fff;
+  --tissue-dot: #ff5f75;
   background:
     radial-gradient(90ch 60ch at 15% -10%, rgba(200, 16, 46, .14), transparent 65%),
     var(--dark);
@@ -436,28 +403,16 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
   color: var(--on-dark-2); max-width: 56ch; margin-bottom: 0;
 }
 
-.emergant { position: relative; margin: 0; }
-.ant-art { display: block; width: 100%; height: auto; }
-.ant-leaf {                                  /* gripped by the mandibles, hanging forward */
-  position: absolute; width: 27%; height: auto; left: 4%; top: 34.5%;
-  fill: #d52b1e; stroke: var(--dark); stroke-width: 60; stroke-linejoin: round;
-  transform: rotate(190deg);
-}
-
-.trail { display: block; width: 100%; height: 150px; margin-top: 6px; opacity: .9; }
+.emergant { margin: 0; }
+.emergant svg { display: block; width: 100%; max-width: 340px; height: auto; margin-inline: auto; }
+.ant-body { fill: var(--on-dark); }
+.ant-legs { stroke: var(--on-dark); stroke-width: 7; }
+.ant-feelers { stroke: var(--on-dark); stroke-width: 6; }
+.ant-tip { fill: var(--on-dark); }
+.ant-eye { fill: var(--dark); }
+.ant-leaf { fill: #d52b1e; transform-origin: 142px 28px; transform: rotate(-12deg); }
 
 /* ── elsewhere ─────────────────────────────────────────────────── */
-.band-slim { padding: 22px 0; }
-.links-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px; }
-.link-card {
-  display: block; padding: 13px 15px; border-radius: var(--r);
-  border: 1px solid var(--line); background: var(--card);
-  text-decoration: none; color: var(--ink); transition: border-color .15s ease, transform .12s ease;
-}
-.link-card:hover { border-color: var(--red); transform: translateY(-1px); }
-.link-card b { display: block; font-size: .92rem; margin-bottom: 2px; }
-.link-card span { font-size: .8rem; color: var(--muted); }
-
 /* ── footer ────────────────────────────────────────────────────── */
 .foot { background: var(--dark); color: var(--on-dark-2); padding: 26px 0 32px; }
 .foot-inner { display: grid; gap: 14px; justify-items: start; }
@@ -468,17 +423,6 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .foot-fine { font-size: .74rem; margin: 0; color: #7d7264; max-width: 62ch; }
 
 /* ── value bar ─────────────────────────────────────────────────── */
-.valuebar {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-  gap: 0; background: var(--hero-red); color: #fff;
-  padding: 12px max(22px, calc((100vw - var(--wrap)) / 2 + 22px));
-}
-.valuebar span {
-  padding: 2px 20px; font-size: .72rem; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase;
-  border-left: 1px solid rgba(255, 255, 255, .32);
-}
-.valuebar span:first-child { border-left: 0; }
-@media (max-width: 620px) {
-  .valuebar span { padding: 2px 10px; font-size: .64rem; letter-spacing: .14em; }
-}
+.valuebar { height: 10px; background: var(--hero-red); }
+
+.band-dark .tissue { opacity: .35; }

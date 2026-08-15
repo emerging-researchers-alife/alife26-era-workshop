@@ -10,10 +10,6 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const SVG_NS = "http://www.w3.org/2000/svg";
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* the maple leaf, in its own 500..4300 × 360..4470 coordinate space */
-const MAPLE_D = $("#maple path").getAttribute("d");
-const MAPLE_BOX = { x: 500, y: 360, w: 3800, h: 4110 };
-
 /* deterministic 0..1 hash, so the ornaments look the same on every reload */
 function rnd(str) {
   let h = 2166136261;
@@ -37,7 +33,7 @@ const CHEVRON =
 const TZ_SHIFT = { edt: 0, cest: 6, jst: 13 };
 
 function shiftRange(range, hours) {
-  if (!hours) return range;
+  if (!hours) return range.replace("-", "–");
   let rolled = false;
   const parts = range.split("-").map(part => {
     const [h, m] = part.trim().split(":").map(Number);
@@ -102,7 +98,7 @@ function slotRow(row, tz) {
     (talk >= 0 ? CHEVRON : "");
   const [t0, t1] = shiftRange(row.edt, TZ_SHIFT[tz]).split("–");
   $(".ag-t0", rowEl).textContent = t0;
-  $(".ag-t1", rowEl).textContent = "–" + t1;    /* hidden on narrow screens */
+  $(".ag-t1", rowEl).textContent = t1 ? "–" + t1 : "";   /* hidden on narrow screens */
 
   if (talk >= 0) {
     const t = TALKS[talk];
@@ -308,105 +304,12 @@ function drawCellMark(host, seed) {
   host.append(svg);
 }
 
-/* ══════════════════════════════════ ant trail ═════════════════ */
-/* A pheromone trail with traffic on it. About half of them are carrying. */
-function antTrail(canvas) {
-  const ctx = canvas.getContext("2d");
-  const leaf = new Path2D(MAPLE_D);
-  const INK = (getComputedStyle(document.body).getPropertyValue("--on-dark") || "#f2ebdf").trim();
-  let W = 0, dpr = 1;
-  const H = 150;
-
-  const ants = Array.from({ length: 14 }, (_, i) => ({
-    t: rnd(`a${i}`),
-    v: 0.00018 + rnd(`v${i}`) * 0.00024,
-    dir: rnd(`d${i}`) > 0.4 ? 1 : -1,
-    carry: rnd(`c${i}`) > 0.5,
-    wob: rnd(`w${i}`) * 6.28,
-    scale: 1.7 + rnd(`s${i}`) * 0.8,
-  }));
-
-  const trailY = x => H / 2 + Math.sin(x / 190) * 26 + Math.sin(x / 55 + 1.3) * 7;
-
-  function resize() {
-    dpr = Math.min(devicePixelRatio || 1, 2);
-    W = canvas.clientWidth;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function ant(x, y, angle, a) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle + (a.dir < 0 ? Math.PI : 0));
-    ctx.scale(a.scale * (a.dir < 0 ? -1 : 1), a.scale);
-    ctx.strokeStyle = INK; ctx.fillStyle = INK; ctx.lineCap = "round";
-
-    ctx.globalAlpha = .55; ctx.lineWidth = .9;         // legs, kept quiet
-    ctx.beginPath();
-    for (const [hx, kx, ky, fx, fy] of [[-1.5, -5, 4, -8, 6.5], [1, 1.5, 5, -1, 8], [4, 7.5, 4, 10, 7]]) {
-      ctx.moveTo(hx, .5); ctx.lineTo(kx, ky); ctx.lineTo(fx, fy);
-      ctx.moveTo(hx, -.5); ctx.lineTo(kx, -ky); ctx.lineTo(fx, -fy);
-    }
-    ctx.stroke();
-
-    ctx.globalAlpha = .85;                             // antennae
-    ctx.beginPath();
-    ctx.moveTo(7.5, -1.4); ctx.lineTo(11, -5); ctx.lineTo(15, -4.5);
-    ctx.moveTo(7.5, 1.4); ctx.lineTo(11, -2); ctx.lineTo(15, -1);
-    ctx.stroke();
-
-    ctx.globalAlpha = 1;                               // gaster, mesosoma, head
-    for (const [ex, rx, ry] of [[-6.4, 4.6, 3.6], [-.2, 3, 2.4], [6, 3.4, 2.9]]) {
-      ctx.beginPath(); ctx.ellipse(ex, 0, rx, ry, 0, 0, 6.2832); ctx.fill();
-    }
-
-    if (a.carry) {                                     // a maple leaf, overhead
-      ctx.save();
-      const k = 15 / MAPLE_BOX.h;
-      ctx.translate(5.5, -10.5);
-      ctx.rotate(-0.4);
-      ctx.scale(k, k);
-      ctx.translate(-MAPLE_BOX.x - MAPLE_BOX.w / 2, -MAPLE_BOX.y - MAPLE_BOX.h / 2);
-      ctx.fillStyle = "#d52b1e";
-      ctx.fill(leaf);
-      ctx.restore();
-    }
-    ctx.restore();
-  }
-
-  function frame(now) {
-    ctx.clearRect(0, 0, W, H);
-
-    ctx.beginPath();                                   // the pheromone trail
-    for (let x = 0; x <= W; x += 6) x ? ctx.lineTo(x, trailY(x)) : ctx.moveTo(x, trailY(x));
-    ctx.strokeStyle = "rgba(200,16,46,.32)";
-    ctx.lineWidth = 7; ctx.setLineDash([2, 9]); ctx.lineCap = "round";
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    for (const a of ants) {
-      if (!reduced) a.t = (a.t + a.v * a.dir + 1) % 1;
-      const x = a.t * W;
-      const y = trailY(x) + Math.sin(now / 700 + a.wob) * 2.5;
-      ant(x, y, Math.atan2(trailY(x + 4) - trailY(x - 4), 8), a);
-    }
-    if (!reduced) requestAnimationFrame(frame);
-  }
-
-  resize();
-  addEventListener("resize", () => { resize(); if (reduced) frame(0); });
-  requestAnimationFrame(frame);
-}
-
 /* ══════════════════════════════════ go ═════════════════════════ */
 setTz("edt");
 
 $$(".tissue").forEach(h => drawTissue(h));
 $$(".helix").forEach(drawHelix);
 $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
-antTrail($("#trail"));
 
 let resizeTimer;
 addEventListener("resize", () => {
