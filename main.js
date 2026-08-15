@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════════
    ERA @ ALIFE 2026 — page behaviour and the organic ornaments.
-   No dependencies; everything below draws itself.
+   No dependencies; every pattern on the page draws itself.
    ══════════════════════════════════════════════════════════════════ */
 (() => {
 "use strict";
@@ -14,160 +14,109 @@ const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const MAPLE_D = $("#maple path").getAttribute("d");
 const MAPLE_BOX = { x: 500, y: 360, w: 3800, h: 4110 };
 
-/* deterministic 0..1 hash so ornaments look the same on every reload */
+/* deterministic 0..1 hash, so the ornaments look the same on every reload */
 function rnd(str) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
   return ((h >>> 0) % 100000) / 100000;
 }
 
-const el = (name, attrs = {}) => {
+const svgEl = (name, attrs = {}) => {
   const n = document.createElementNS(SVG_NS, name);
   for (const k in attrs) n.setAttribute(k, attrs[k]);
   return n;
 };
 
-/* ── the ERA board ──────────────────────────────────────────────── */
-const BOARD = [
-  ["Imy Khan", "General chair", "Independent, UK"],
-  ["Martha Emerson", "Vice chair & equity chair", "University of Washington, USA"],
-  ["Ane Kristine Espeseth", "ISAL board representative", "University of Oslo, Norway"],
-  ["Gabriel Juliano Severino", "Communications chair", "Indiana University Bloomington, USA"],
-  ["Lio Hong", "Lead digital events chair", "Independent, Singapore"],
-  ["Andy Walsh", "Digital events chair", "Independent, USA"],
-  ["Piotr Walas", "Lead conference chair", "Warsaw University of Technology, Poland"],
-  ["Harald Michael Ludwig", "Conference chair", "Complexity Science Hub, Austria"],
-  ["Iliya Zhechev", "Conference chair", "Sofia University, Bulgaria"],
-];
+const CHEVRON =
+  `<svg class="ag-chev" viewBox="0 0 16 16" aria-hidden="true">` +
+  `<path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" ` +
+  `stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-/* ══════════════════════════════════ schedule ═══════════════════ */
-/* The Workshop sheet carries EDT only, so the other two zones are derived
-   from it — EDT +6 is CEST, EDT +13 is JST. */
+/* ══════════════════════════════════ time zones ═════════════════ */
+/* The source sheet carries EDT only; the other two are derived from it. */
 const TZ_SHIFT = { edt: 0, cest: 6, jst: 13 };
 
 function shiftRange(range, hours) {
   if (!hours) return range;
   let rolled = false;
-  const out = range.split("-").map(part => {
+  const parts = range.split("-").map(part => {
     const [h, m] = part.trim().split(":").map(Number);
     const raw = h + hours;
     rolled = raw >= 24;
     return `${String(raw % 24).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
   });
-  return out.join("-") + (rolled ? " (+1)" : "");
+  return parts.join("–") + (rolled ? " +1" : "");
 }
 
-/* A real timetable: one track per session, blocks placed and sized by the
-   clock, so gaps and the ninety-minute hackathon look like what they are. */
-const PX_PER_MIN = 3;
+const endOf = range => range.split("-")[1].trim();
+const startOf = range => range.split("-")[0].trim();
 
-const minutes = t => {
-  const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
-};
+/* ══════════════════════════════════ agenda ═════════════════════ */
+/* The timetable and the talk list are one thing: a rail of slots, each
+   talk opening its abstract in place. */
+function renderAgenda(tz) {
+  const list = $("#agenda");
+  list.textContent = "";
+  let prevEnd = null;
 
-function renderWorkshop(tz) {
-  const host = $("#timetable-grid");
-  host.textContent = "";
+  WORKSHOP.forEach((block, bi) => {
+    /* the hours between two sessions, marked but not claimed */
+    if (prevEnd) list.append(gapRow(prevEnd, startOf(block.rows[0].edt), tz));
 
-  for (const block of WORKSHOP) {
-    const [from, to] = block.span.split("–").map(s => minutes(s.trim()));
-
-    const sec = document.createElement("section");
-    sec.className = "tt-session";
-
-    const head = document.createElement("header");
-    head.className = "tt-head";
-    head.innerHTML = `<b></b><span class="tt-span"></span>`;
+    const head = document.createElement("li");
+    head.className = "ag-session";
+    head.innerHTML = `<b></b><span></span>`;
     $("b", head).textContent = block.label;
-    $(".tt-span", head).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]).replace("-", "–");
-    sec.append(head);
-
-    const track = document.createElement("div");
-    track.className = "tt-track";
-    track.style.height = (to - from) * PX_PER_MIN + "px";
+    $("span", head).textContent = shiftRange(block.span.replace("–", "-"), TZ_SHIFT[tz]);
+    list.append(head);
 
     for (const row of block.rows) {
-      const [s0, s1] = row.edt.split("-").map(t => minutes(t.trim()));
-      const talk = TALKS.findIndex(t => t.name === row.speaker);
-      const isBreak = /break/i.test(row.session);
-      const isHack = /hackathon/i.test(row.session);
-
-      const node = document.createElement(talk >= 0 ? "button" : isHack ? "a" : "div");
-      node.className = "tt-block" + (isBreak ? " is-break" : "") + (isHack ? " is-hack" : "");
-      node.style.top = (s0 - from) * PX_PER_MIN + "px";
-      node.style.height = (s1 - s0) * PX_PER_MIN - 3 + "px";
-
-      const time = document.createElement("span");
-      time.className = "tt-time";
-      time.textContent = shiftRange(row.edt, TZ_SHIFT[tz]);
-
-      const body = document.createElement("span");
-      body.className = "tt-body";
-      if (talk >= 0) {
-        body.innerHTML = `<b class="tt-who"></b><span class="tt-what"></span>`;
-        $(".tt-who", body).textContent = row.speaker;
-        $(".tt-what", body).textContent = TALKS[talk].title;
-      } else {
-        body.innerHTML = `<b class="tt-who"></b><span class="tt-what"></span>`;
-        $(".tt-who", body).textContent = row.session || row.speaker;
-        $(".tt-what", body).textContent = isHack ? "Build something ant-shaped →" : "";
-      }
-
-      node.append(time, body);
-      if (talk >= 0) {
-        node.type = "button";
-        node.addEventListener("click", () => openTalk(talk));
-      } else if (isHack) {
-        node.href = "#hackathon";
-      }
-      track.append(node);
+      list.append(slotRow(row, tz));
+      prevEnd = endOf(row.edt);
     }
-    sec.append(track);
-    host.append(sec);
-  }
+    if (bi === WORKSHOP.length - 1) prevEnd = null;
+  });
 }
 
-function setTz(tz) {
-  $$(".tz button").forEach(x => x.classList.toggle("is-on", x.dataset.tz === tz));
-  $$(".tz-label").forEach(l => { l.textContent = tz.toUpperCase(); });
-  renderWorkshop(tz);
+function gapRow(from, to, tz) {
+  const li = document.createElement("li");
+  li.className = "ag-gap";
+  li.innerHTML = `<span class="ag-gap-time"></span><span></span>`;
+  $(".ag-gap-time", li).textContent = shiftRange(`${from}-${to}`, TZ_SHIFT[tz]);
+  $(".ag-gap-time", li).nextElementSibling.textContent = "no ERA session";
+  return li;
 }
 
-$$(".tz button").forEach(b => b.addEventListener("click", () => setTz(b.dataset.tz)));
+function slotRow(row, tz) {
+  const talk = TALKS.findIndex(t => t.name === row.speaker);
+  const isHack = /hackathon/i.test(row.session);
+  const li = document.createElement("li");
+  li.className = "ag-item" + (talk >= 0 ? "" : isHack ? " ag-item--hack" : " ag-item--plain");
 
-/* ══════════════════════════════════ lightning talks ════════════ */
-function renderTalks() {
-  const list = $("#talk-list");
-  TALKS.forEach((t, i) => {
-    const li = document.createElement("li");
-    li.className = "talk";
-    const pid = `talk-panel-${i}`;
+  const rowEl = document.createElement(talk >= 0 ? "button" : isHack ? "a" : "div");
+  rowEl.className = "ag-row";
+  rowEl.innerHTML =
+    `<span class="ag-time"><b class="ag-t0"></b><span class="ag-t1"></span></span>` +
+    `<span class="ag-node"></span>` +
+    `<span class="ag-main"><span class="ag-title"></span><span class="ag-who"></span></span>` +
+    (talk >= 0 ? CHEVRON : "");
+  const [t0, t1] = shiftRange(row.edt, TZ_SHIFT[tz]).split("–");
+  $(".ag-t0", rowEl).textContent = t0;
+  $(".ag-t1", rowEl).textContent = "–" + t1;    /* hidden on narrow screens */
 
-    const head = document.createElement("button");
-    head.type = "button";
-    head.className = "t-head";
-    head.setAttribute("aria-expanded", "false");
-    head.setAttribute("aria-controls", pid);
-    head.innerHTML =
-      `<span class="t-num">${String(i + 1).padStart(2, "0")}</span>` +
-      `<span><span class="t-title"></span><span class="t-by"><b></b> · <span></span></span></span>` +
-      `<svg class="t-chev" viewBox="0 0 16 16" aria-hidden="true">` +
-      `<path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" ` +
-      `stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    $(".t-title", head).textContent = t.title;
-    $(".t-by b", head).textContent = t.name;
-    $(".t-by span", head).textContent = t.affiliation;
+  if (talk >= 0) {
+    const t = TALKS[talk];
+    $(".ag-title", rowEl).textContent = t.title;
+    $(".ag-who", rowEl).textContent = `${t.name} · ${t.affiliation}`;
 
     const panel = document.createElement("div");
-    panel.className = "t-panel";
-    panel.id = pid;
-
-    panel.append(section("Abstract", t.abstract));
-    if (t.bio) panel.append(section("About the speaker", [t.bio]));
+    panel.className = "ag-panel";
+    panel.id = `talk-${talk + 1}`;
+    panel.append(block("Abstract", t.abstract));
+    if (t.bio) panel.append(block("About the speaker", [t.bio]));
     if (t.url) {
       const p = document.createElement("p");
-      p.className = "t-link";
+      p.className = "ag-link";
       const a = document.createElement("a");
       a.href = t.url; a.target = "_blank"; a.rel = "noopener";
       a.textContent = `${t.name} → ${t.urlLabel} ↗`;
@@ -175,19 +124,31 @@ function renderTalks() {
       panel.append(p);
     }
 
-    head.addEventListener("click", () => {
-      const open = head.getAttribute("aria-expanded") === "true";
-      head.setAttribute("aria-expanded", String(!open));
+    rowEl.type = "button";
+    rowEl.setAttribute("aria-expanded", "false");
+    rowEl.setAttribute("aria-controls", panel.id);
+    rowEl.addEventListener("click", () => {
+      const open = rowEl.getAttribute("aria-expanded") === "true";
+      rowEl.setAttribute("aria-expanded", String(!open));
       panel.classList.toggle("is-open", !open);
       syncExpandAll();
     });
 
-    li.append(head, panel);
-    list.append(li);
-  });
+    li.append(rowEl, panel);
+  } else {
+    $(".ag-title", rowEl).textContent = row.session || row.speaker;
+    if (isHack) {
+      rowEl.href = "#hackathon";
+      $(".ag-who", rowEl).textContent = "Build something ant-shaped →";
+    } else {
+      $(".ag-who", rowEl).remove();
+    }
+    li.append(rowEl);
+  }
+  return li;
 }
 
-function section(label, paragraphs) {
+function block(label, paragraphs) {
   const frag = document.createDocumentFragment();
   const h = document.createElement("h4");
   h.textContent = label;
@@ -200,18 +161,9 @@ function section(label, paragraphs) {
   return frag;
 }
 
-/* open one talk and bring it into view — used by the schedule's speaker links */
-function openTalk(i) {
-  const head = $$(".t-head")[i];
-  if (!head) return;
-  if (head.getAttribute("aria-expanded") !== "true") head.click();
-  head.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
-  head.focus({ preventScroll: true });
-}
-
 function syncExpandAll() {
-  const heads = $$(".t-head");
-  const allOpen = heads.every(h => h.getAttribute("aria-expanded") === "true");
+  const rows = $$("button.ag-row");
+  const allOpen = rows.length > 0 && rows.every(r => r.getAttribute("aria-expanded") === "true");
   const btn = $("#expand-all");
   btn.setAttribute("aria-expanded", String(allOpen));
   btn.textContent = allOpen ? "Collapse all" : "Expand all";
@@ -219,37 +171,31 @@ function syncExpandAll() {
 
 $("#expand-all").addEventListener("click", () => {
   const open = $("#expand-all").getAttribute("aria-expanded") !== "true";
-  $$(".t-head").forEach(h => {
-    h.setAttribute("aria-expanded", String(open));
-    document.getElementById(h.getAttribute("aria-controls")).classList.toggle("is-open", open);
+  $$("button.ag-row").forEach(r => {
+    r.setAttribute("aria-expanded", String(open));
+    document.getElementById(r.getAttribute("aria-controls")).classList.toggle("is-open", open);
   });
   syncExpandAll();
 });
 
-/* ══════════════════════════════════ organisers ═════════════════ */
-function renderBoard() {
-  const ul = $("#people");
-  for (const [name, role, aff] of BOARD) {
-    const li = document.createElement("li");
-    li.innerHTML = `<span class="p-name"></span><span class="p-role"></span><span class="p-aff"></span>`;
-    $(".p-name", li).textContent = name;
-    $(".p-role", li).textContent = role;
-    $(".p-aff", li).textContent = aff;
-    ul.append(li);
-  }
+function setTz(tz) {
+  $$(".tz button").forEach(b => b.classList.toggle("is-on", b.dataset.tz === tz));
+  renderAgenda(tz);
+  syncExpandAll();
 }
+$$(".tz button").forEach(b => b.addEventListener("click", () => setTz(b.dataset.tz)));
 
 /* ══════════════════════════════════ cell tissue ════════════════ */
 /* A honeycomb whose vertices are jittered through a shared lookup, so
-   neighbouring cells keep their shared walls — the way tissue does.   */
+   neighbouring cells keep their shared walls — the way tissue does. */
 function drawTissue(host) {
   const w = host.clientWidth || 1200;
-  const h = host.clientHeight || 620;
-  const s = w < 700 ? 34 : 46;                 // cell radius
-  const J = s * 0.24;                          // wall wobble
-  const svg = el("svg", { viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "xMidYMid slice" });
-  const cells = el("g", { fill: "none", stroke: "var(--ink)", "stroke-width": "1", opacity: ".16" });
-  const inner = el("g");
+  const h = host.clientHeight || 600;
+  const s = w < 700 ? 34 : 46;                     // cell radius
+  const J = s * 0.24;                              // wall wobble
+  const svg = svgEl("svg", { viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "xMidYMid slice" });
+  const walls = svgEl("g", { fill: "none", stroke: "var(--tissue-line)", "stroke-width": "1", opacity: ".16" });
+  const inner = svgEl("g");
   const seen = new Map();
 
   const vert = (x, y) => {
@@ -274,95 +220,85 @@ function drawTissue(host) {
         const a = (Math.PI / 3) * i;
         pts.push(vert(cx + s * Math.cos(a), cy + s * Math.sin(a)));
       }
-      cells.append(el("path", {
+      walls.append(svgEl("path", {
         d: "M" + pts.map(p => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join("L") + "Z",
       }));
 
-      /* a few cells get a nucleus, fewer get organelle specks */
       const seed = rnd(`n${c},${r}`);
-      if (seed > 0.72) {
-        inner.append(el("circle", {
+      if (seed > 0.72) {                             // a nucleus
+        inner.append(svgEl("circle", {
           cx: cx.toFixed(1), cy: cy.toFixed(1), r: (s * 0.2).toFixed(1),
-          fill: seed > 0.9 ? "var(--red)" : "var(--ink)", opacity: seed > 0.9 ? ".2" : ".11",
+          fill: seed > 0.9 ? "var(--tissue-dot)" : "var(--tissue-line)",
+          opacity: seed > 0.9 ? ".2" : ".11",
         }));
-      } else if (seed < 0.16) {
+      } else if (seed < 0.16) {                      // organelle specks
         for (let k = 0; k < 3; k++) {
           const a = rnd(`o${c},${r},${k}`) * Math.PI * 2;
           const d = s * (0.25 + rnd(`d${c},${r},${k}`) * 0.35);
-          inner.append(el("circle", {
+          inner.append(svgEl("circle", {
             cx: (cx + Math.cos(a) * d).toFixed(1), cy: (cy + Math.sin(a) * d).toFixed(1),
-            r: (s * 0.055).toFixed(1), fill: "var(--red)", opacity: ".22",
+            r: (s * 0.055).toFixed(1), fill: "var(--tissue-dot)", opacity: ".22",
           }));
         }
       }
     }
   }
-  svg.append(cells, inner);
+  svg.append(walls, inner);
   host.textContent = "";
   host.append(svg);
 }
 
-/* ══════════════════════════════════ braided rule ═══════════════ */
-/* Two strands weaving: per half-period the strand on top is drawn with a
-   paper-coloured casing beneath it, which is what makes it read as over. */
-function drawBraid(host) {
-  const W = 190, H = 14, mid = H / 2, amp = 3.4, segs = 8;
-  const step = W / segs;
-  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
-  const arch = (i, up) => {
-    const x0 = i * step, x1 = x0 + step;
-    return `M${x0.toFixed(1)} ${mid} Q${(x0 + step / 2).toFixed(1)} ${mid + (up ? -2 : 2) * amp} ${x1.toFixed(1)} ${mid}`;
+/* ══════════════════════════════════ helix rule ═════════════════ */
+/* Two strands crossing, and nothing else — no over-and-under, no depth. */
+function drawHelix(host) {
+  const W = 190, H = 14, mid = H / 2, amp = 3.4, half = W / 8;
+  const wave = up => {
+    let d = `M0 ${mid}`;
+    for (let i = 0; i < 8; i++) {
+      const x0 = i * half;
+      const peak = mid + ((i % 2 === 0) === up ? -2 : 2) * amp;
+      d += ` Q${(x0 + half / 2).toFixed(1)} ${peak.toFixed(1)} ${(x0 + half).toFixed(1)} ${mid}`;
+    }
+    return d;
   };
-  const stroke = (d, color, width, cap) =>
-    el("path", { d, fill: "none", stroke: color, "stroke-width": width, "stroke-linecap": cap || "round" });
-
-  for (let i = 0; i < segs; i++) {
-    const aUp = i % 2 === 0;                  // strand A arches up on even segments
-    const A = { d: arch(i, aUp), c: "var(--red)" };
-    const B = { d: arch(i, !aUp), c: "var(--ink)" };
-    const [under, over] = aUp ? [B, A] : [A, B];   // …and passes over there too
-    svg.append(stroke(under.d, under.c, 1.5));
-    svg.append(stroke(over.d, "var(--paper)", 4.5, "butt"));  // casing, cut to its own segment
-    svg.append(stroke(over.d, over.c, 1.5));
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
+  for (const [up, color] of [[true, "var(--red)"], [false, "var(--ink)"]]) {
+    svg.append(svgEl("path", {
+      d: wave(up), fill: "none", stroke: color, "stroke-width": 1.5, "stroke-linecap": "round",
+    }));
   }
   host.append(svg);
 }
 
 /* ══════════════════════════════════ organelle watermark ═══════ */
 function drawCellMark(host, seed) {
-  const svg = el("svg", { viewBox: "0 0 200 200" });
-  const g = el("g", { fill: "none", stroke: "var(--ink)", "stroke-width": "1.6" });
+  const svg = svgEl("svg", { viewBox: "0 0 200 200" });
+  const g = svgEl("g", { fill: "none", stroke: "var(--ink)", "stroke-width": "1.6" });
 
-  /* wobbly membrane */
   const pts = [];
   for (let i = 0; i < 40; i++) {
     const a = (i / 40) * Math.PI * 2;
     const r = 88 + Math.sin(a * 3 + seed) * 5 + Math.sin(a * 7 - seed * 2) * 3;
     pts.push([100 + Math.cos(a) * r, 100 + Math.sin(a) * r]);
   }
-  g.append(el("path", { d: "M" + pts.map(p => p.map(v => v.toFixed(1)).join(" ")).join("L") + "Z" }));
-  g.append(el("path", {
-    d: "M" + pts.map(p => [(p[0] - 100) * .93 + 100, (p[1] - 100) * .93 + 100]
-      .map(v => v.toFixed(1)).join(" ")).join("L") + "Z",
-    "stroke-dasharray": "3 5", "stroke-width": "1",
-  }));
+  const ring = k => "M" + pts.map(p =>
+    [(p[0] - 100) * k + 100, (p[1] - 100) * k + 100].map(v => v.toFixed(1)).join(" ")).join("L") + "Z";
+  g.append(svgEl("path", { d: ring(1) }));
+  g.append(svgEl("path", { d: ring(0.93), "stroke-dasharray": "3 5", "stroke-width": "1" }));
 
-  /* nucleus */
-  g.append(el("circle", { cx: "92", cy: "96", r: "30", stroke: "var(--red)" }));
-  g.append(el("circle", { cx: "86", cy: "90", r: "9", stroke: "var(--red)", "stroke-width": "1" }));
+  g.append(svgEl("circle", { cx: "92", cy: "96", r: "30", stroke: "var(--red)" }));
+  g.append(svgEl("circle", { cx: "86", cy: "90", r: "9", stroke: "var(--red)", "stroke-width": "1" }));
 
-  /* mitochondria, with cristae */
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {                      // mitochondria, with cristae
     const x = 40 + rnd(`m${seed}${i}x`) * 110, y = 40 + rnd(`m${seed}${i}y`) * 120;
     const rot = rnd(`m${seed}${i}r`) * 180;
-    const m = el("g", { transform: `translate(${x.toFixed(0)} ${y.toFixed(0)}) rotate(${rot.toFixed(0)})` });
-    m.append(el("rect", { x: "-17", y: "-7", width: "34", height: "14", rx: "7" }));
-    m.append(el("path", { d: "M-11 -7 l6 14 M-1 -7 l6 14 M9 -7 l6 14", "stroke-width": "1" }));
+    const m = svgEl("g", { transform: `translate(${x.toFixed(0)} ${y.toFixed(0)}) rotate(${rot.toFixed(0)})` });
+    m.append(svgEl("rect", { x: "-17", y: "-7", width: "34", height: "14", rx: "7" }));
+    m.append(svgEl("path", { d: "M-11 -7 l6 14 M-1 -7 l6 14 M9 -7 l6 14", "stroke-width": "1" }));
     g.append(m);
   }
-  /* vesicles */
-  for (let i = 0; i < 6; i++) {
-    g.append(el("circle", {
+  for (let i = 0; i < 6; i++) {                      // vesicles
+    g.append(svgEl("circle", {
       cx: (30 + rnd(`v${seed}${i}x`) * 140).toFixed(0),
       cy: (30 + rnd(`v${seed}${i}y`) * 140).toFixed(0),
       r: (2 + rnd(`v${seed}${i}r`) * 4).toFixed(1), "stroke-width": "1.1",
@@ -373,12 +309,13 @@ function drawCellMark(host, seed) {
 }
 
 /* ══════════════════════════════════ ant trail ═════════════════ */
-/* A pheromone trail with traffic on it. Some of them are carrying. */
+/* A pheromone trail with traffic on it. About half of them are carrying. */
 function antTrail(canvas) {
   const ctx = canvas.getContext("2d");
   const leaf = new Path2D(MAPLE_D);
   const INK = (getComputedStyle(document.body).getPropertyValue("--on-dark") || "#f2ebdf").trim();
-  let W = 0, H = 150, dpr = 1;
+  let W = 0, dpr = 1;
+  const H = 150;
 
   const ants = Array.from({ length: 14 }, (_, i) => ({
     t: rnd(`a${i}`),
@@ -399,16 +336,14 @@ function antTrail(canvas) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function ant(x, y, ang, a) {
+  function ant(x, y, angle, a) {
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate(ang + (a.dir < 0 ? Math.PI : 0));
+    ctx.rotate(angle + (a.dir < 0 ? Math.PI : 0));
     ctx.scale(a.scale * (a.dir < 0 ? -1 : 1), a.scale);
-    ctx.strokeStyle = INK; ctx.fillStyle = INK;
-    ctx.lineCap = "round";
+    ctx.strokeStyle = INK; ctx.fillStyle = INK; ctx.lineCap = "round";
 
-    ctx.globalAlpha = .55;                             // legs, kept quiet
-    ctx.lineWidth = .9;
+    ctx.globalAlpha = .55; ctx.lineWidth = .9;         // legs, kept quiet
     ctx.beginPath();
     for (const [hx, kx, ky, fx, fy] of [[-1.5, -5, 4, -8, 6.5], [1, 1.5, 5, -1, 8], [4, 7.5, 4, 10, 7]]) {
       ctx.moveTo(hx, .5); ctx.lineTo(kx, ky); ctx.lineTo(fx, fy);
@@ -455,8 +390,7 @@ function antTrail(canvas) {
       if (!reduced) a.t = (a.t + a.v * a.dir + 1) % 1;
       const x = a.t * W;
       const y = trailY(x) + Math.sin(now / 700 + a.wob) * 2.5;
-      const ang = Math.atan2(trailY(x + 4) - trailY(x - 4), 8);
-      ant(x, y, ang, a);
+      ant(x, y, Math.atan2(trailY(x + 4) - trailY(x - 4), 8), a);
     }
     if (!reduced) requestAnimationFrame(frame);
   }
@@ -467,23 +401,24 @@ function antTrail(canvas) {
 }
 
 /* ══════════════════════════════════ go ═════════════════════════ */
-renderTalks();          /* before the schedules — they link into the talk list */
-renderBoard();
 setTz("edt");
-syncExpandAll();
 
-$$(".tissue").forEach(drawTissue);
-$$(".braid").forEach(drawBraid);
+$$(".tissue").forEach(h => drawTissue(h));
+$$(".helix").forEach(drawHelix);
 $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
 antTrail($("#trail"));
 
-let t;
+let resizeTimer;
 addEventListener("resize", () => {
-  clearTimeout(t);
-  t = setTimeout(() => $$(".tissue").forEach(drawTissue), 220);
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => $$(".tissue").forEach(h => drawTissue(h)), 220);
 });
 
-/* open a talk if the page was linked straight to it */
-if (location.hash.startsWith("#talk-")) openTalk(Number(location.hash.slice(6)) - 1);
+/* a link straight to one talk opens it */
+if (location.hash.startsWith("#talk-")) {
+  const panel = document.getElementById(location.hash.slice(1));
+  const row = panel && panel.previousElementSibling;
+  if (row) { row.click(); row.scrollIntoView({ block: "center" }); }
+}
 
 })();

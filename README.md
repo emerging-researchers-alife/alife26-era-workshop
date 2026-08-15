@@ -1,83 +1,83 @@
 # ERA @ ALIFE 2026
 
-Static site for the **ERA (Emerging Researchers in Artificial Life) Workshop** at
-**ALIFE 2026** — Tuesday 18 August 2026, Room 5, Waterloo, Ontario. Timetable,
-nine lightning talks, and the **Emerg-ant hackathon**.
+Site for the **ERA (Emerging Researchers in Artificial Life) workshop** at
+**ALIFE 2026** — Tuesday 18 August 2026, Room 5, Waterloo, Ontario. Nine
+lightning talks and the **Emerg-ant hackathon**.
 
-Plain HTML, CSS and JavaScript. No build step, no dependencies, no fonts or
-scripts fetched from anywhere else. Open `index.html` and it works.
+Plain HTML, CSS and JavaScript. No build step, no dependencies, nothing fetched
+from another host. Open `index.html` and it works.
 
 ## Files
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The whole page. Holds the maple-leaf `<symbol>` used everywhere else. |
-| `styles.css` | Design tokens and layout. Light and dark themes come from one set of custom properties. |
-| `main.js` | Renders the timetable, the talks and the board; draws the ornaments. |
-| `data.js` | Generated content: the workshop timetable and the nine lightning talks. |
+| `index.html` | The whole page. Holds the maple-leaf `<symbol>` that everything else reuses. |
+| `styles.css` | Tokens and layout. Light and dark themes come from one set of custom properties. |
+| `main.js` | Builds the programme and draws every pattern on the page. |
+| `data.js` | Generated content: the timetable and the nine talks. |
 | `assets/` | ERA, ALIFE 2026 and ISAL logos, the ant, the flag of Canada, the favicon. |
 
 ## Design
 
-Colours come from the flag of Canada — red on white — warmed into paper and ink
-so a full page of it is readable. The organic texture is drawn at run time rather
-than shipped as images:
+A letterpress poster, essentially: cream paper, Canada red, ink black, heavy
+condensed capitals for anything that shouts, and a grain over the whole thing.
+The header is one solid red block; a red value bar closes the page.
 
-- **Cell tissue** (behind every band) — a honeycomb whose vertices are jittered
+Everything organic is drawn at run time rather than shipped as an image:
+
+- **Cell tissue**, behind every band — a honeycomb whose vertices are jittered
   through a shared lookup table, so neighbouring cells keep their shared walls.
-- **Braided rules** (section dividers) — two strands weaving; per half-period the
-  strand on top is drawn with a background-coloured casing beneath it, which is
-  what makes the crossing read as *over*.
+  The hero flips `--tissue-line` to white and gets the same pattern in reverse.
+- **Helix rules** between sections — two strands crossing, no over-and-under.
 - **Organelle watermarks** — a wobbly membrane, a nucleus, mitochondria with
-  cristae, a scatter of vesicles.
-- **Ant trail** (hackathon section) — a pheromone trail with traffic on it. Some
-  of them are carrying.
-- **Paper grain** — an `feTurbulence` overlay, fixed to the viewport.
+  cristae, a scatter of vesicles, half off the edge of the page.
+- **Ant trail** in the hackathon band — a pheromone trail with traffic on it.
+  About half of them are carrying.
+- **Paper grain** — an `feTurbulence` overlay fixed to the viewport.
 
 All of it honours `prefers-reduced-motion` and `prefers-color-scheme`.
 
 `assets/ant.svg` is the one drawing that is not generated: a lateral worker ant
-traced from *Scheme ant worker anatomy* by Mariana Ruiz (LadyofHats) on Wikimedia
-Commons, which is public domain. Labels, leader lines and colour bands were
-stripped and the palette was fixed to the hackathon band's two colours, so it
-renders correctly through an `<img>` tag with no CSS context. The maple leaf it
-carries is a separate overlay, positioned so its stem meets the mandibles.
+from *Scheme ant worker anatomy* by Mariana Ruiz (LadyofHats) on Wikimedia
+Commons, which is public domain. The labels, leader lines and colour bands were
+stripped and every part filled flat, which leaves a solid silhouette; the
+palette is fixed to the hackathon band's two colours so the file renders
+correctly through an `<img>` tag with no CSS context. The maple leaf it carries
+is a separate overlay, rotated so its stem meets the mandibles.
 
-## Data sources
+## The programme
+
+The timetable and the talk list are the same thing — one rail of slots, each
+talk opening its abstract in place. Times come from the workshop schedule sheet,
+which carries EDT only, so CEST and JST are derived at render time (EDT + 6 and
+EDT + 13). The three hours between the two sessions are shown as a gap rather
+than filled in with a guess.
+
+## Data
 
 - **Timetable** — the Workshop Schedule tab of the ALIFE 2026 schedule sheet.
-  That sheet carries EDT only, so CEST and JST are derived at render time
-  (EDT + 6 and EDT + 13).
-- **Lightning talks** — the ERA submission sheet. Only the name, affiliation,
-  title, abstract, bio and public link are published; email addresses, consent
-  answers and notes to the organisers are not in `data.js` and never reach the page.
-- **Organisers** — the ERA board as listed on [alife.org](https://alife.org/emerging-researchers-in-alife/).
+- **Talks** — the ERA submission sheet. Only the name, affiliation, title,
+  abstract, bio and public link are published. Email addresses, consent answers
+  and notes to the organisers are not in `data.js` and never reach the page.
 
-### Updating the content
+### Editing
 
-`data.js` is generated, but it is ordinary readable JavaScript — for a title fix
-or a new talk, edit it directly. Each talk is:
+`data.js` is generated but it is ordinary readable JavaScript, so a title fix or
+a new talk can go in directly. Each talk is:
 
 ```js
 {
   name: "…", url: "…" | null, urlLabel: "…" | null,
   affiliation: "…", title: "…",
-  abstract: ["paragraph", "paragraph"],   // array of paragraphs
+  abstract: ["paragraph", "paragraph"],
   bio: "…"
 }
 ```
 
-The timetable is drawn to scale: one track per session, each block positioned
-and sized from its clock times at `PX_PER_MIN` pixels a minute, so the five-minute
-seams and the ninety-minute hackathon look like what they are.
-
 `WORKSHOP` is a list of sessions, each with a `label`, a `span` and `rows` of
-`edt` / `session` / `speaker`. A row whose `session` matches `break` is styled as
-a break automatically, and a `speaker` that matches a talk in `TALKS` turns that
-block into a button which opens the abstract.
-
-The order of `TALKS` is the running order shown on the page — reorder the array
-to reorder the lineup. The organiser list lives in `BOARD` at the top of `main.js`.
+`edt` / `session` / `speaker`. A `speaker` matching a talk in `TALKS` turns that
+slot into a button which opens the abstract; anything else renders as a plain
+row, and a row whose session mentions the hackathon links to its section.
 
 ## Deploying
 
