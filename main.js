@@ -41,8 +41,8 @@ const BOARD = [
 ];
 
 /* ══════════════════════════════════ schedule ═══════════════════ */
-/* The Minicon sheet ships all three zones; the Workshop sheet ships EDT only,
-   so the other two are derived from it — EDT +6 is CEST, EDT +13 is JST. */
+/* The Workshop sheet carries EDT only, so the other two zones are derived
+   from it — EDT +6 is CEST, EDT +13 is JST. */
 const TZ_SHIFT = { edt: 0, cest: 6, jst: 13 };
 
 function shiftRange(range, hours) {
@@ -55,48 +55,6 @@ function shiftRange(range, hours) {
     return `${String(raw % 24).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
   });
   return out.join("-") + (rolled ? " (+1)" : "");
-}
-
-function renderMinicon(tz) {
-  const tbody = $("#minicon-table tbody");
-  tbody.textContent = "";
-
-  for (const row of MINICON) {
-    const tr = document.createElement("tr");
-    const isBreak = /break|lunch/i.test(row.session);
-    if (isBreak) tr.className = "is-break";
-
-    const t = document.createElement("td");
-    t.className = "c-time";
-    t.innerHTML = `<span class="t">${row[tz]}</span>`;
-
-    const s = document.createElement("td");
-    s.className = "c-sess";
-    s.innerHTML = `<span class="s-title"></span>`;
-    s.firstChild.textContent = row.session;
-    if (row.note) {
-      const n = document.createElement("span");
-      n.className = "s-note";
-      n.textContent = row.note;
-      s.append(n);
-    }
-
-    const sp = document.createElement("td");
-    sp.className = "c-spk";
-    sp.textContent = row.speaker || "—";
-
-    const m = document.createElement("td");
-    m.className = "c-mode";
-    if (row.mode) {
-      const b = document.createElement("span");
-      b.className = "mode" + (/remote/i.test(row.mode) ? " is-remote" : "");
-      b.textContent = row.mode.trim();
-      m.append(b);
-    }
-
-    tr.append(t, s, sp, m);
-    tbody.append(tr);
-  }
 }
 
 function renderWorkshop(tz) {
@@ -158,7 +116,6 @@ function renderWorkshop(tz) {
 function setTz(tz) {
   $$(".tz button").forEach(x => x.classList.toggle("is-on", x.dataset.tz === tz));
   $$(".tz-label").forEach(l => { l.textContent = tz.toUpperCase(); });
-  renderMinicon(tz);
   renderWorkshop(tz);
 }
 
@@ -334,7 +291,7 @@ function drawTissue(host) {
 /* Two strands weaving: per half-period the strand on top is drawn with a
    paper-coloured casing beneath it, which is what makes it read as over. */
 function drawBraid(host) {
-  const W = 2200, H = 22, mid = H / 2, amp = 5.5, segs = 88;
+  const W = 190, H = 14, mid = H / 2, amp = 3.4, segs = 8;
   const step = W / segs;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
   const arch = (i, up) => {
@@ -349,9 +306,9 @@ function drawBraid(host) {
     const A = { d: arch(i, aUp), c: "var(--red)" };
     const B = { d: arch(i, !aUp), c: "var(--ink)" };
     const [under, over] = aUp ? [B, A] : [A, B];   // …and passes over there too
-    svg.append(stroke(under.d, under.c, 2.2));
-    svg.append(stroke(over.d, "var(--paper)", 6, "butt"));   // casing, cut to its own segment
-    svg.append(stroke(over.d, over.c, 2.2));
+    svg.append(stroke(under.d, under.c, 1.5));
+    svg.append(stroke(over.d, "var(--paper)", 4.5, "butt"));  // casing, cut to its own segment
+    svg.append(stroke(over.d, over.c, 1.5));
   }
   host.append(svg);
 }
