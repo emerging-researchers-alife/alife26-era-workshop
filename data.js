@@ -176,7 +176,7 @@ const TALKS = [
     "url": null,
     "urlLabel": null,
     "affiliation": "Warsaw University of Technology",
-    "title": "Sneak peek Swarmnasium: a year into RL stimulation",
+    "title": "Swarmnasium — A gymnasium for swarms",
     "abstract": [
       "Sneak peek into Swarmnasium framework for making RL swarm oriented environments"
     ],
