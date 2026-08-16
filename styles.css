@@ -390,12 +390,15 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
    larger and looser headline, and the pink accent instead of the red */
 .hack-wrap { position: relative; }
 .hack-title {
-  display: flex; align-items: baseline; flex-wrap: wrap; gap: .3em;
+  display: flex; align-items: center; gap: .42em;
   font-family: var(--display); font-weight: 900; text-transform: uppercase;
-  font-size: clamp(1.9rem, 5.4vw, 3.2rem); line-height: .95;
-  letter-spacing: -.03em; color: var(--on-dark); margin-bottom: .5em;
+  font-size: clamp(1.8rem, 5vw, 3rem); line-height: .94;
+  letter-spacing: -.03em; color: var(--on-dark); margin-bottom: .6em;
 }
-.hack-bug { font-size: .62em; line-height: 1; filter: saturate(1.1); }
+.hack-bug { font-size: 1.75em; line-height: 1; flex: none; }
+.hack-words { display: grid; gap: .06em; }
+.hack-l2 { font-size: .76em; color: var(--on-dark-2); letter-spacing: -.01em; }
+@media (max-width: 560px) { .hack-bug { font-size: 1.4em; } }
 .ant-word { color: #ff5f75; position: relative; white-space: nowrap; }
 .ant-word::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -.06em; height: 2px;
