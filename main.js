@@ -158,9 +158,16 @@ $$(".tz button").forEach(b => b.addEventListener("click", () => setTz(b.dataset.
 function drawTissue(host) {
   const w = host.clientWidth || 1200;
   const h = host.clientHeight || 600;
+  if (host._tw === w && host._th === h) return;    // nothing moved
+  host._tw = w; host._th = h;
+
   const s = w < 700 ? 34 : 46;                     // cell radius
   const J = s * 0.24;                              // wall wobble
-  const svg = svgEl("svg", { viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "xMidYMid slice" });
+  /* YMin, not YMid: a band grows downwards when a talk opens, and centring
+     the pattern would slide every cell on the page. Cell positions depend
+     only on the column and row index, so redrawing taller keeps the top
+     identical and simply adds rows underneath. */
+  const svg = svgEl("svg", { viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "xMidYMin slice" });
   const walls = svgEl("g", { fill: "none", stroke: "var(--tissue-line)", "stroke-width": "1", opacity: ".16" });
   const inner = svgEl("g");
   const seen = new Map();
@@ -319,6 +326,15 @@ $$(".helix").forEach(drawHelix);
 $$(".antpaths").forEach(drawAntPaths);
 $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
 
+/* Opening a talk makes its band taller. Redraw that band's tissue at the new
+   height so it stays 1:1 instead of being scaled up to cover. */
+if (window.ResizeObserver) {
+  const ro = new ResizeObserver(entries => {
+    for (const e of entries) drawTissue(e.target);
+  });
+  $$(".tissue").forEach(h => ro.observe(h));
+}
+
 let resizeTimer;
 addEventListener("resize", () => {
   clearTimeout(resizeTimer);
@@ -326,7 +342,6 @@ addEventListener("resize", () => {
     $$(".tissue").forEach(h => drawTissue(h));
     $$(".helix").forEach(drawHelix);
     $$(".antpaths").forEach(drawAntPaths);
-$$(".antpaths").forEach(drawAntPaths);
   }, 220);
 });
 
