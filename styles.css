@@ -408,17 +408,18 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 
 .emergant { margin: 0; }
 .emergant svg { display: block; width: 100%; max-width: 340px; height: auto; margin-inline: auto; }
-.ant-body { fill: var(--on-dark); }
-.ant-legs { stroke: var(--on-dark); }
-.ant-legs .l1 { stroke-width: 9; }        /* femur, tibia, tarsus — tapering */
-.ant-legs .l2 { stroke-width: 6.5; }
-.ant-legs .l3 { stroke-width: 4.5; }
-.legs-far { opacity: .42; }
-.ant-seams { stroke: var(--dark); stroke-width: 2.4; opacity: .32; }
-.ant-feelers { stroke: var(--on-dark); stroke-width: 6; }
-.ant-tip { fill: var(--on-dark); }
-.ant-eye { fill: var(--dark); }
-.ant-leaf { fill: #d52b1e; transform-origin: 172px 20px; transform: rotate(-12deg); }
+/* outline drawing: the bodies carry the band colour so nothing shows through */
+.ant-body { fill: var(--dark); stroke: var(--on-dark); stroke-width: 3.4; }
+.ant-legs { stroke: var(--on-dark); stroke-width: 3.2; }
+.legs-far { opacity: .45; }
+.ant-seams { stroke: var(--on-dark); stroke-width: 2; opacity: .5; }
+.ant-jaws { stroke: var(--on-dark); stroke-width: 3; }
+.ant-feelers { stroke: var(--on-dark); stroke-width: 3; }
+.ant-eye { fill: var(--on-dark); }
+.ant-leaf {
+  fill: #d52b1e; stroke: var(--on-dark); stroke-width: 140; stroke-linejoin: round;
+  transform-origin: 248px 58px; transform: rotate(26deg);
+}
 
 /* ── elsewhere ─────────────────────────────────────────────────── */
 /* ── footer ────────────────────────────────────────────────────── */

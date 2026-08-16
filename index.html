@@ -130,55 +130,51 @@
       </div>
 
       <figure class="emergant">
-        <!-- a stylised worker ant: segmented gaster, jointed legs, clubbed
-             feelers. Drawn friendly on purpose — no mandibles, no spines. -->
-        <svg viewBox="0 -26 272 208" role="img" aria-labelledby="ant-t">
-          <title id="ant-t">An ant carrying a maple leaf</title>
+        <!-- a worker ant in outline, in the poster's pose: gaster slung low and
+             back, mesosoma humped, head up, long splayed legs. Bodies carry the
+             band colour so whatever passes behind them is hidden. The leaf is
+             held out in front, its stem ending between the jaws. -->
+        <svg viewBox="8 -44 322 278" role="img" aria-labelledby="ant-t">
+          <title id="ant-t">Outline of an ant carrying a maple leaf in its jaws</title>
 
-          <g class="ant-legs" fill="none" stroke-linecap="round">
-            <g class="legs-far">
-              <path class="l1" d="M160 106 L196 122"/><path class="l2" d="M196 122 L216 146"/><path class="l3" d="M216 146 L234 152"/>
-              <path class="l1" d="M150 112 L160 146"/><path class="l2" d="M160 146 L154 174"/><path class="l3" d="M154 174 L166 186"/>
-              <path class="l1" d="M138 110 L106 144"/><path class="l2" d="M106 144 L70 164"/><path class="l3" d="M70 164 L50 178"/>
-            </g>
-            <g class="legs-near">
-              <path class="l1" d="M150 100 L186 116"/><path class="l2" d="M186 116 L206 140"/><path class="l3" d="M206 140 L224 146"/>
-              <path class="l1" d="M140 106 L150 140"/><path class="l2" d="M150 140 L144 168"/><path class="l3" d="M144 168 L156 180"/>
-              <path class="l1" d="M128 104 L96 138"/><path class="l2" d="M96 138 L60 158"/><path class="l3" d="M60 158 L40 172"/>
-            </g>
+          <g class="ant-legs legs-far" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M184 108 L228 122 L262 106"/>
+            <path d="M164 114 L174 178 L146 226"/>
+            <path d="M142 112 L96 166 L42 206"/>
+          </g>
+          <g class="ant-legs legs-near" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M170 98 L214 112 L248 96"/>
+            <path d="M150 104 L160 168 L132 216"/>
+            <path d="M128 102 L82 156 L28 196"/>
           </g>
 
           <g class="ant-body">
-            <!-- gaster, a teardrop pointing back at the petiole -->
-            <path d="M100 92 C100 68 78 54 50 56 C22 58 6 74 8 94 C10 116 34 130 60 126 C84 122 100 112 100 92 Z"/>
-            <!-- petiole, two nodes -->
-            <circle cx="108" cy="94" r="7"/>
-            <circle cx="120" cy="90" r="6"/>
-            <!-- mesosoma, with the worker's hump -->
-            <path d="M130 102 C127 78 140 58 160 56 C176 54 187 64 187 78 C187 94 172 106 152 106 C140 106 131 105 130 102 Z"/>
-            <!-- head -->
-            <ellipse cx="214" cy="70" rx="29" ry="26" transform="rotate(-10 214 70)"/>
+            <ellipse cx="62" cy="118" rx="40" ry="29" transform="rotate(-20 62 118)"/>
+            <circle cx="104" cy="102" r="6"/>
+            <circle cx="116" cy="96" r="5"/>
+            <ellipse cx="146" cy="86" rx="30" ry="20" transform="rotate(-16 146 86)"/>
+            <ellipse cx="202" cy="62" rx="26" ry="22" transform="rotate(-18 202 62)"/>
           </g>
 
-          <!-- segment seams on the gaster, cut back out of it -->
           <g class="ant-seams" fill="none" stroke-linecap="round">
-            <path d="M78 70 C70 84 70 100 78 114"/>
-            <path d="M56 66 C46 84 46 102 56 118"/>
-            <path d="M34 72 C27 86 27 100 33 114"/>
+            <path d="M86 92 C79 105 77 120 83 133"/>
+            <path d="M68 88 C59 104 57 124 64 140"/>
+            <path d="M48 90 C40 104 39 122 46 138"/>
           </g>
 
-          <g class="ant-feelers" fill="none" stroke-linecap="round">
-            <path d="M228 48 Q240 26 258 24"/>
-            <path d="M234 58 Q252 48 266 52"/>
-          </g>
-          <circle class="ant-tip" cx="258" cy="24" r="6"/>
-          <circle class="ant-tip" cx="266" cy="52" r="6"/>
-          <ellipse class="ant-eye" cx="224" cy="62" rx="7" ry="9" transform="rotate(-10 224 62)"/>
+          <!-- the leaf, out in front, stem down into the jaws at (248,58) -->
+          <g class="ant-leaf"><use href="#maple" x="198" y="-42" width="100" height="100"/></g>
 
-          <!-- the leaf, carried over the shoulder, clear of the feelers -->
-          <g class="ant-leaf">
-            <use href="#maple" x="128" y="-24" width="88" height="88"/>
+          <g class="ant-jaws" fill="none" stroke-linecap="round">
+            <path d="M224 50 Q240 44 249 53"/>
+            <path d="M227 66 Q243 64 249 56"/>
           </g>
+
+          <g class="ant-feelers" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M212 42 L232 14 L262 4"/>
+            <path d="M220 52 L246 30 L278 28"/>
+          </g>
+          <circle class="ant-eye" cx="210" cy="56" r="3.6"/>
         </svg>
       </figure>
     </div>
