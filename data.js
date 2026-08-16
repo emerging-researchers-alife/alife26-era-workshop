@@ -17,7 +17,8 @@ const WORKSHOP = [
       {
         "edt": "10:30-10:45",
         "session": "",
-        "speaker": "Imy"
+        "speaker": "Imy",
+        "title": "A (Brief) Overview of the Artificial Life Online Expo"
       },
       {
         "edt": "10:45-11:00",

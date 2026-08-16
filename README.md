@@ -73,6 +73,10 @@ a new talk can go in directly. Each talk is:
 slot into a button which opens the abstract; anything else renders as a plain
 row, and a row whose session mentions the hackathon links to its section.
 
+A scheduled speaker with no entry in `TALKS` shows as the name alone. Give that
+row an optional `title` and it reads like the others — title on top, speaker
+underneath — still without a panel, since there is no abstract to open.
+
 ## Deploying
 
 Any static host. For GitHub Pages: Settings → Pages → *Deploy from a branch* →

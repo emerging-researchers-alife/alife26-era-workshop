@@ -111,10 +111,11 @@ function slotRow(row, tz) {
 
     li.append(rowEl, panel);
   } else if (row.speaker && !isHack) {
-    /* scheduled, but no abstract submitted for it yet */
+    /* scheduled, but no abstract submitted for it yet. A row may still carry a
+       title of its own, in which case it reads like the rest of the rail. */
     li.className = "ag-item ag-item--tba";
-    $(".ag-title", rowEl).textContent = row.speaker;
-    $(".ag-who", rowEl).textContent = "Lightning talk";
+    $(".ag-title", rowEl).textContent = row.title || row.speaker;
+    $(".ag-who", rowEl).textContent = row.title ? row.speaker : "Lightning talk";
     li.append(rowEl);
   } else {
     $(".ag-title", rowEl).textContent = row.session || row.speaker;
