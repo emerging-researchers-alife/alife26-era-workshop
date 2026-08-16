@@ -61,6 +61,11 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
+  /* Opening a drawer changes a row's height, and the browser's scroll
+     anchoring compensates by nudging the page about 35px — enough to read
+     as a jump. The anchor it picks can be anywhere below, so this has to
+     be set on the scrolling box itself. */
+  overflow-anchor: none;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
@@ -286,6 +291,7 @@ h1 .at {
    ══════════════════════════════════════════════════════════════════ */
 .agenda { list-style: none; margin: 0; padding: 0; position: relative; }
 
+
 /* the rail runs the height of the list, behind the dots */
 .agenda::before {
   content: ""; position: absolute; top: 6px; bottom: 6px;
@@ -302,13 +308,15 @@ h1 .at {
 
 .ag-item { position: relative; }
 
+/* the row is inset by its own padding, like the hackathon card, so the
+   hover ground has air around the text instead of butting up against it */
 .ag-row {
   display: grid;
   grid-template-columns: calc(var(--gutter) - 22px) 22px 1fr auto;
   align-items: start; gap: 0;
-  width: 100%; margin: 0 0 4px; padding: 9px 12px 9px 0;
+  width: calc(100% + 40px); margin: 0 0 3px -20px; padding: 11px 20px;
   font: inherit; color: inherit; text-align: left;
-  background: transparent; border: 0; border-radius: 8px;
+  background: transparent; border: 0; border-radius: var(--r);
 }
 button.ag-row { cursor: pointer; transition: background .14s ease; }
 button.ag-row:hover { background: var(--red-tint); }
@@ -345,7 +353,7 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .ag-item--hack .ag-row {
   align-items: center;
   width: calc(100% + 40px); margin-left: -20px;
-  padding: 20px 20px 20px 20px;
+  padding: 20px;
   background: var(--dark); color: var(--on-dark);
   border-radius: var(--r); border-left: 3px solid var(--red);
   text-decoration: none;
@@ -358,7 +366,7 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .ag-hack-leaf { width: 26px; height: 30px; fill: var(--red); flex: none; opacity: .85; }
 
 /* the abstract, opening in place */
-.ag-panel { display: none; padding: 2px 12px 16px calc(var(--gutter) + 4px); }
+.ag-panel { display: none; padding: 4px 12px 18px calc(var(--gutter) + 4px); }
 .ag-panel.is-open { display: block; }
 .ag-panel h4 {
   font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;

@@ -1,10 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ERA">
 	<rect width="64" height="64" rx="14" fill="#14100d"/>
-	<!-- the leaf centred on its own bounding box, 37 of 64 units tall -->
-	<g transform="translate(9.97 9.83) scale(0.009181)">
-		<!-- the leaf's own stem is a hairline that vanishes at tab size, so it
-		     is thickened underneath in the same colour -->
-		<rect fill="#fdf8ef" x="2270" y="3380" width="260" height="1100" rx="130"/>
-		<path fill="#fdf8ef" d="m2490 4430-45-863a95 95 0 0 1 111-98l859 151-116-320a65 65 0 0 1 20-73l941-762-212-99a65 65 0 0 1-34-79l186-572-542 115a65 65 0 0 1-73-38l-105-247-423 454a65 65 0 0 1-111-57l204-1052-327 189a65 65 0 0 1-91-27l-332-652-332 652a65 65 0 0 1-91 27l-327-189 204 1052a65 65 0 0 1-111 57l-423-454-105 247a65 65 0 0 1-73 38l-542-115 186 572a65 65 0 0 1-34 79l-212 99 941 762a65 65 0 0 1 20 73l-116 320 859-151a95 95 0 0 1 111 98l-45 863z"/>
+	<!-- red leaf, white keyline. It fills 48 of the 64 units, and the stroke is
+	     what keeps the lobes and the stem legible at tab size. -->
+	<g transform="translate(6.6 6.4) scale(0.011915)">
+		<path fill="#d52b1e" stroke="#fdf8ef" stroke-width="170" stroke-linejoin="round"
+		      d="m2490 4430-45-863a95 95 0 0 1 111-98l859 151-116-320a65 65 0 0 1 20-73l941-762-212-99a65 65 0 0 1-34-79l186-572-542 115a65 65 0 0 1-73-38l-105-247-423 454a65 65 0 0 1-111-57l204-1052-327 189a65 65 0 0 1-91-27l-332-652-332 652a65 65 0 0 1-91 27l-327-189 204 1052a65 65 0 0 1-111 57l-423-454-105 247a65 65 0 0 1-73 38l-542-115 186 572a65 65 0 0 1-34 79l-212 99 941 762a65 65 0 0 1 20 73l-116 320 859-151a95 95 0 0 1 111 98l-45 863z"/>
 	</g>
 </svg>

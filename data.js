@@ -5,7 +5,7 @@ const WORKSHOP = [
     "span": "10:00–12:00",
     "rows": [
       {
-        "edt": "10:00-10:10",
+        "edt": "10:00-10:15",
         "session": "ERA Intro",
         "speaker": ""
       },
