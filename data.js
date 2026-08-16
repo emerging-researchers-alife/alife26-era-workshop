@@ -69,7 +69,7 @@ const WORKSHOP = [
       {
         "edt": "15:45-16:00",
         "session": "",
-        "speaker": "Peter Wallace"
+        "speaker": "Piotr Walas"
       },
       {
         "edt": "16:00-17:00",
