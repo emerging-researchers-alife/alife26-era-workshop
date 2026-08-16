@@ -71,7 +71,7 @@ const WORKSHOP = [
         "speaker": "Peter Wallace"
       },
       {
-        "edt": "15:30-17:00",
+        "edt": "16:00-17:00",
         "session": "Ants Hackathon",
         "speaker": "Iliya Z"
       }

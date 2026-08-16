@@ -107,7 +107,6 @@ function slotRow(row, tz) {
       const open = rowEl.getAttribute("aria-expanded") === "true";
       rowEl.setAttribute("aria-expanded", String(!open));
       panel.classList.toggle("is-open", !open);
-      syncExpandAll();
     });
 
     li.append(rowEl, panel);
@@ -146,27 +145,9 @@ function block(label, paragraphs) {
   return frag;
 }
 
-function syncExpandAll() {
-  const rows = $$("button.ag-row");
-  const allOpen = rows.length > 0 && rows.every(r => r.getAttribute("aria-expanded") === "true");
-  const btn = $("#expand-all");
-  btn.setAttribute("aria-expanded", String(allOpen));
-  btn.textContent = allOpen ? "Collapse all" : "Expand all";
-}
-
-$("#expand-all").addEventListener("click", () => {
-  const open = $("#expand-all").getAttribute("aria-expanded") !== "true";
-  $$("button.ag-row").forEach(r => {
-    r.setAttribute("aria-expanded", String(open));
-    document.getElementById(r.getAttribute("aria-controls")).classList.toggle("is-open", open);
-  });
-  syncExpandAll();
-});
-
 function setTz(tz) {
   $$(".tz button").forEach(b => b.classList.toggle("is-on", b.dataset.tz === tz));
   renderAgenda(tz);
-  syncExpandAll();
 }
 $$(".tz button").forEach(b => b.addEventListener("click", () => setTz(b.dataset.tz)));
 

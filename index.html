@@ -51,10 +51,6 @@
         <dt>Where</dt>
         <dd>ALIFE 2026<br>Waterloo, Canada</dd>
       </div>
-      <div>
-        <dt>Who</dt>
-        <dd>Students. Postdocs.<br>Independents. Everyone.</dd>
-      </div>
     </dl>
 
     <div class="cta-row">
@@ -64,7 +60,9 @@
 
     <p class="rule-label"><span>Organised by</span></p>
     <div class="org-row">
-      <p class="org-name">Emerging Researchers in Artificial Life<br><em>the student chapter of ISAL</em></p>
+      <a class="org-name" href="https://alife.org/emerging-researchers-in-alife/" target="_blank" rel="noopener">
+        <span>Emerging Researchers in Artificial Life ↗</span><em>the student chapter of ISAL</em>
+      </a>
       <span class="logo-strip">
         <a class="logo-chip" href="https://2026.alife.org/" target="_blank" rel="noopener" title="ALIFE 2026">
           <img src="assets/alife2026-logo.png" alt="ALIFE 2026"></a>
@@ -85,15 +83,12 @@
     <div class="sec-head">
       <div>
         <h2><svg class="h-glyph" viewBox="0 0 100 100" aria-hidden="true"><use href="#maple" width="100" height="100"/></svg>Lightning talks</h2>
-        <p class="sec-sub">Tuesday 18 August 2026 · Room 5. Every talk opens where it sits.</p>
+        <p class="sec-sub">Tuesday 18 August 2026 · Room 5</p>
       </div>
-      <div class="head-tools">
-        <div class="tz" role="group" aria-label="Time zone">
-          <button type="button" data-tz="edt" class="is-on">EDT</button>
-          <button type="button" data-tz="cest">CEST</button>
-          <button type="button" data-tz="jst">JST</button>
-        </div>
-        <button type="button" class="btn btn-small" id="expand-all" aria-expanded="false">Expand all</button>
+      <div class="tz" role="group" aria-label="Time zone">
+        <button type="button" data-tz="edt" class="is-on">EDT</button>
+        <button type="button" data-tz="cest">CEST</button>
+        <button type="button" data-tz="jst">JST</button>
       </div>
     </div>
 
@@ -106,7 +101,7 @@
   <div class="tissue tissue--band" aria-hidden="true"></div>
   <div class="antpaths" id="antpaths" aria-hidden="true"></div>
   <div class="wrap hack-wrap">
-    <p class="kicker kicker--light">15:30 – 17:00 · hack session</p>
+    <p class="kicker kicker--light">16:00 – 17:00 · hack session</p>
     <h2 class="hack-title">
       <span class="hack-bug">🐜</span>
       <span class="hack-words">
@@ -115,31 +110,32 @@
       </span>
     </h2>
 
-    <div class="hack-cols">
-      <p>
-        Ants are the standing argument that intelligence does not need a head office.
-        A colony has no manager and no blueprint, and it still finds the shortest route
-        to your kitchen before you have finished washing up.
-      </p>
-      <p>
-        So: build something ant-shaped. A turn rule that is learned rather than written down,
-        a colony that grows a pattern and repairs it when you cut a piece out, two crowds that
-        disagree about which way is up — or stigmergy, foraging, brood sorting, and a single ant
-        that refuses on principle to cooperate.
-      </p>
-    </div>
+    <p class="hack-lead">
+      Ants are the standing argument that intelligence does not need a head office.
+      A colony has no manager and no blueprint, and it still finds the shortest route
+      to your kitchen before you have finished washing up.
+    </p>
+
+    <p class="hack-ask">So: build something ant like.</p>
+    <ul class="hack-ideas">
+      <li>a turn rule that is learned, not written down</li>
+      <li>a colony that grows a pattern and repairs it</li>
+      <li>two crowds that disagree which way is up</li>
+      <li>stigmergy</li>
+      <li>foraging</li>
+      <li>brood sorting</li>
+      <li>bridges made out of bodies</li>
+      <li>one ant that refuses on principle to cooperate</li>
+    </ul>
 
     <div class="hack-links">
-      <a class="btn btn-primary" href="https://ichko.github.io/nants/" target="_blank" rel="noopener">Start from nants ↗</a>
+      <a class="btn btn-primary" href="https://ichko.github.io/nants/" target="_blank" rel="noopener">Start from NAnts ↗</a>
       <span class="or">or bring your own colony</span>
     </div>
 
     <p class="hack-note">
-      <b>nants</b> — neural ants — is a trainable version of Langton’s ant, built on the
-      neural cellular automata architecture: each ant reads the 3×3 patch under its feet,
-      paints, and turns, and the colony grows a shape it agrees on. Cut a piece out and it
-      grows back. Fork it and start there, or start from nothing — the only rule is that
-      ants are involved somewhere.
+      <b>NAnts</b> — neural ants: Langton’s ant made trainable, on the neural cellular
+      automata architecture. Fork it, or start from nothing.
     </p>
   </div>
 </section>
