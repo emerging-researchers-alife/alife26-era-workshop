@@ -259,6 +259,38 @@ function drawHelix(host) {
   host.append(svg);
 }
 
+/* ══════════════════════════════════ marching ants ═════════════ */
+/* Winding trails across the hackathon band. The dashes do the walking. */
+function drawAntPaths(host) {
+  const w = host.clientWidth || 1200;
+  const h = host.clientHeight || 400;
+  const svg = svgEl("svg", { viewBox: `0 0 ${w} ${h}`, preserveAspectRatio: "none" });
+
+  for (let i = 0; i < 7; i++) {
+    const base = h * (0.1 + 0.13 * i);
+    const amp = 14 + rnd(`amp${i}`) * 34;
+    const period = 190 + rnd(`per${i}`) * 260;
+    const phase = rnd(`ph${i}`) * 6.283;
+    const drift = (rnd(`dr${i}`) - 0.5) * 0.16;      // a slow slope along the band
+
+    let d = "";
+    for (let x = -20; x <= w + 20; x += 14) {
+      const y = base + Math.sin(x / period + phase) * amp
+                     + Math.sin(x / (period * 0.37) + phase * 2) * amp * 0.32
+                     + x * drift;
+      d += (d ? "L" : "M") + x.toFixed(0) + " " + y.toFixed(1);
+    }
+    svg.append(svgEl("path", {
+      d,
+      opacity: (0.14 + rnd(`op${i}`) * 0.24).toFixed(2),
+      style: `animation-duration:${(1.7 + rnd(`sp${i}`) * 2.6).toFixed(2)}s;` +
+             (rnd(`rev${i}`) > 0.5 ? "animation-direction:reverse;" : ""),
+    }));
+  }
+  host.textContent = "";
+  host.append(svg);
+}
+
 /* ══════════════════════════════════ organelle watermark ═══════ */
 function drawCellMark(host, seed) {
   const svg = svgEl("svg", { viewBox: "0 0 200 200" });
@@ -302,6 +334,7 @@ setTz("edt");
 
 $$(".tissue").forEach(h => drawTissue(h));
 $$(".helix").forEach(drawHelix);
+$$(".antpaths").forEach(drawAntPaths);
 $$(".cell-mark").forEach((h, i) => drawCellMark(h, i * 1.7 + 0.6));
 
 let resizeTimer;
@@ -310,6 +343,8 @@ addEventListener("resize", () => {
   resizeTimer = setTimeout(() => {
     $$(".tissue").forEach(h => drawTissue(h));
     $$(".helix").forEach(drawHelix);
+    $$(".antpaths").forEach(drawAntPaths);
+$$(".antpaths").forEach(drawAntPaths);
   }, 220);
 });
 
