@@ -146,8 +146,7 @@ const TALKS = [
     "title": "Genetica: Evolving animal morphology",
     "abstract": [
       "Genetica is an ongoing project to simulate the evolution of earth-like aquatic organisms with complex morphologies and brains. Genetica uses a novel algorithm for representing creature morphologies, inspired by real gene-regulatory networks. It allows for modular organisms that exhibit within-lifetime, nonlinear growth, serial homology, continuous morphological mutation, and complex functional bodies with interior tissues and exterior structures. Most importantly, these creatures are super efficient to simulate on a GPU, so I can simulate thousands of organisms at ecosystem scale on a laptop."
-    ],
-    "bio": "I'm a 24 year old software engineer based in the UK, but in my spare time I'm building Genetica. Not sure what to put here but I’d love the opportunity to give a talk :D"
+    ]
   },
   {
     "name": "Jason Yoder",
