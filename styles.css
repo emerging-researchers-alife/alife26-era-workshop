@@ -13,6 +13,7 @@
   --red:       #c8102e;
   --red-deep:  #8f1023;
   --red-tint:  rgba(200, 16, 46, .075);
+  --red-shade: #8f1023;      /* the ledge under the big button, always darker */
   --line:      rgba(25, 21, 16, .14);
   --line-soft: rgba(25, 21, 16, .075);
   --dark:      #14100d;
@@ -48,6 +49,7 @@
     --red:       #e8465c;
     --red-deep:  #f5798a;
     --red-tint:  rgba(232, 70, 92, .10);
+    --red-shade: #9c2134;
     --line:      rgba(242, 235, 223, .16);
     --line-soft: rgba(242, 235, 223, .08);
     --dark:      #0d0b09;
@@ -386,6 +388,32 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
   .ag-session { padding-left: calc(var(--gutter) + 4px); }
 }
 
+/* ── register: one band, one button ────────────────────────────── */
+.band-cta { background: var(--paper); padding: 40px 0; }
+.cta-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 26px 34px; flex-wrap: wrap;
+}
+.cta-copy h2 { margin: 0 0 .25em; }
+.cta-copy p { margin: 0; color: var(--ink-2); font-size: .92rem; }
+
+.btn-huge {
+  display: inline-flex; align-items: center; gap: .45em; flex: none;
+  padding: 20px 34px; border-radius: var(--r);
+  background: var(--red); color: #fff; text-decoration: none;
+  font-family: var(--display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(1rem, 2.2vw, 1.35rem); letter-spacing: -.01em;
+  box-shadow: 0 3px 0 var(--red-shade);
+  transition: transform .12s ease, background .15s ease, box-shadow .12s ease;
+}
+.btn-huge:hover {
+  background: var(--red-deep); color: #fff;
+  transform: translateY(2px); box-shadow: 0 1px 0 var(--red-shade);
+}
+@media (max-width: 640px) {
+  .btn-huge { width: 100%; justify-content: center; padding: 18px 20px; }
+}
+
 /* ── hackathon band ────────────────────────────────────────────── */
 .band-dark {
   --tissue-line: #fff;
@@ -437,12 +465,6 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .hack-ideas li:nth-child(3n+1) { border-color: rgba(255, 95, 117, .5); color: #ffb3bf; }
 
 .hack-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 1.5em 0 1.2em; }
-/* the plain button reads as a chip on paper; on the dark band it wants to be
-   an outline instead, so it sits behind the red one rather than beside it */
-.band-dark .btn:not(.btn-primary) {
-  background: transparent; border-color: var(--dark-2); color: var(--on-dark);
-}
-.band-dark .btn:not(.btn-primary):hover { border-color: var(--on-dark-2); background: rgba(255, 255, 255, .05); }
 .or { font-family: var(--mono); font-size: .78rem; color: var(--on-dark-2); }
 .hack-note {
   font-family: var(--mono); font-size: .78rem; line-height: 1.7;
