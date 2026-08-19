@@ -437,6 +437,12 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .hack-ideas li:nth-child(3n+1) { border-color: rgba(255, 95, 117, .5); color: #ffb3bf; }
 
 .hack-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 1.5em 0 1.2em; }
+/* the plain button reads as a chip on paper; on the dark band it wants to be
+   an outline instead, so it sits behind the red one rather than beside it */
+.band-dark .btn:not(.btn-primary) {
+  background: transparent; border-color: var(--dark-2); color: var(--on-dark);
+}
+.band-dark .btn:not(.btn-primary):hover { border-color: var(--on-dark-2); background: rgba(255, 255, 255, .05); }
 .or { font-family: var(--mono); font-size: .78rem; color: var(--on-dark-2); }
 .hack-note {
   font-family: var(--mono); font-size: .78rem; line-height: 1.7;
