@@ -14,6 +14,7 @@
   --red-deep:  #8f1023;
   --red-tint:  rgba(200, 16, 46, .075);
   --red-shade: #8f1023;      /* the ledge under the big button, always darker */
+  --hack-bg:   #1b0c12;      /* the hackathon's own ground: ink with red in it */
   --line:      rgba(25, 21, 16, .14);
   --line-soft: rgba(25, 21, 16, .075);
   --dark:      #14100d;
@@ -50,6 +51,7 @@
     --red-deep:  #f5798a;
     --red-tint:  rgba(232, 70, 92, .10);
     --red-shade: #9c2134;
+    --hack-bg:   #150810;
     --line:      rgba(242, 235, 223, .16);
     --line-soft: rgba(242, 235, 223, .08);
     --dark:      #0d0b09;
@@ -425,10 +427,12 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 .band-dark {
   --tissue-line: #fff;
   --tissue-dot: #ff5f75;
+  /* Its own ground rather than the shared --dark, so the hackathon reads as
+     a block apart from the register band and the footer below it. */
   background:
-    radial-gradient(90ch 60ch at 15% -10%, rgba(200, 16, 46, .14), transparent 65%),
-    var(--dark);
-  color: var(--on-dark); border-block: 1px solid var(--dark-2);
+    radial-gradient(90ch 60ch at 15% -10%, rgba(200, 16, 46, .18), transparent 65%),
+    var(--hack-bg);
+  color: var(--on-dark); border-block: 1px solid rgba(242, 235, 223, .08);
 }
 .band-dark p { color: var(--on-dark-2); }
 .band-dark a { color: #ff8c9c; }
