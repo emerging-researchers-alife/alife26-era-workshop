@@ -389,13 +389,20 @@ button.ag-row[aria-expanded="true"] .ag-title { color: var(--red-deep); }
 }
 
 /* ── register: one band, one button ────────────────────────────── */
-.band-cta { background: var(--paper); padding: 40px 0; }
+.band-cta {
+  /* a step up from the hackathon's --dark, so the two read as separate
+     blocks without a rule between them */
+  background: var(--dark-2); color: var(--on-dark); padding: 40px 0;
+  --tissue-line: #fff;
+  --tissue-dot: #ff5f75;
+}
+.band-cta .tissue { opacity: .3; }
 .cta-inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 26px 34px; flex-wrap: wrap;
 }
 .cta-copy h2 { margin: 0 0 .25em; }
-.cta-copy p { margin: 0; color: var(--ink-2); font-size: .92rem; }
+.cta-copy p { margin: 0; color: var(--on-dark-2); font-size: .92rem; }
 
 .btn-huge {
   display: inline-flex; align-items: center; gap: .45em; flex: none;
